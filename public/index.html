@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" ng-app="AMS" ng-controller="mainCtrl">
+
+<head>
+	<meta charset="utf-8">
+	<title>{{title}}</title>
+
+	<link rel="stylesheet" href="./stylesheets/style.css"/>
+
+	<script src='/javascripts/angular.js'></script>
+	<script src="/javascripts/angular-route.js"></script>
+
+<!-- This is a problem need to be resolved, now, the controller should be loaded before the app.js, not when needed-->
+	<script src='/javascripts/membersController.js'></script>
+	<script src='/javascripts/app.js'></script>
+</head>
+
+
+<body>
+
+<!-- Navigation -->
+<nav>
+	<ul>
+		<li><a href="/members">Members</a></li>
+		<li><a href="/activities">Activities</a></li>
+		<li><a href="/sessions">Session</a></li>
+		<li><a href="/attendances">Attendance</a></li>
+		<li><a href="/membertypes">Member Type</a></li>
+		<li><a href="/stat">Stat</a></li>
+	</ul>
+</nav>
+
+<div ng-view></div>
+ 
+</body>
+</html>

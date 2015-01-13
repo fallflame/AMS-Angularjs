@@ -1,0 +1,24 @@
+GET /member
+
+Params, all optional :
+	page:	pageNumber, default to 0
+	rows:	pageSize, default to 200
+	sidx:	sortField, default to id (user id)
+	sord:	sortDirection, default to asc (ascend)
+
+return :
+	members a list of member
+	member is a object :
+	{
+		memberId: 		Inteter,
+		memberTypeId: 	Integer,
+		firstName: 		String,
+		lastName:		String,
+		emal:			String,
+		nickName:		String,
+		address:		String,
+		phone:			String,
+		sex:			String,
+		description:	String
+	}
+

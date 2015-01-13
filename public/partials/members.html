@@ -1,0 +1,110 @@
+<link rel="stylesheet" href="/stylesheets/members.css">
+
+<section id='members' ng-init='loadMembers()'>
+	<header>
+		<h1>Members</h1>
+		<a href ng-click='createMember()'>Add New Member</a>
+		<input type="search" ng-model="q" placeholder="Search Members" />
+	</header>
+
+	<ul id='members-list'>
+		<li>
+			<span ng-click="orderSelector = 'memberId'; reverse = !reverse">Member Id</span>
+			<span ng-click="orderSelector = 'memberTypeId'; reverse = !reverse">Member Type</span>
+			<span ng-click="orderSelector = 'firstName'; reverse = !reverse">First Name</span>
+			<span ng-click="orderSelector = 'lastName'; reverse = !reverse">Last Name</span>
+			<span ng-click="orderSelector = 'nickName'; reverse = !reverse">Nick</span>
+			<span ng-click="orderSelector = 'sex'; reverse = !reverse">Gender</span>
+		</li>
+		<li ng-repeat="member in members | orderBy:orderSelector:reverse | filter:q as results">
+			<span ng-click="showMemberDetail(member.memberId)">{{member.memberId}}</span>
+			<span>{{member.memberTypeId}}</span>
+			<span>{{member.firstName}}</span>
+			<span>{{member.lastName}}</span>
+			<span>{{member.nickName}}</span>
+			<span>{{member.sex}}</span>
+		</li>
+		<li ng-if="results.length == 0">
+			<strong>No results found...</strong>
+		</li>
+	</ul>
+
+	<!-- Detailing a member modal -->
+	<div id='member-detail' class='modal' ng-if='detailedMember.memberId'>
+		<div class='modal-dialog'>
+			<p><span>Member ID:</span>  		{{detailedMember.memberId}}</p>
+			<p><span>Memeber Type:</span> 	{{detailedMember.memberTypeId}}</p>
+			<p><span>First Name:</span>		{{detailedMember.firstName}}</p>
+			<p><span>Last Name:</span>		{{detailedMember.lastName}}</p>
+			<p><span>Email:</span>			{{detailedMember.email}}</p>
+			<p><span>Nick Name:</span>		{{detailedMember.nickName}}</p>
+			<p><span>Address:</span>			{{detailedMember.address}}</p>
+			<p><span>Tel:</span>				{{detailedMember.phone}}</p>
+			<p><span>Gender:</span>			{{detailedMember.sex}}</p>
+			<p><span>Description:</span>		{{detailedMember.description}}</p>
+			<p>
+				<button class='button' ng-click="hideMemberDetail()">Close</button>
+				<a ng-click='modifyMember()' href>Modify</a>
+				<span> | </span>
+				<a ng-click='deleteMember()' href>Delete</a>
+			</p>
+		</div>
+	</div>
+
+	<!-- Creating new member modal -->
+	<div id='member-detail' class='modal' ng-if='newMember.sex'>
+		<div class='modal-dialog'>
+			<h2>Create New Member</h2>
+			<p>All form fields are required.</p>
+			<form novalidate>
+				<p>
+					<label for='new-memberTypeId'>Memeber Type ID:</label>
+					<select id="new-memberTypeId" ng-model='newMember.memberTypeId'>
+						<option value="1" selected>1</option>
+						<option value="2" selected>2</option>
+						<option value="3" selected>3</option>
+					</select>
+				</p>
+				<p>
+					<label for='new-firstName'>First Name:</label>		
+					<input id="new-firstName" ng-model='newMember.firstName'/>
+				</p>
+				<p>
+					<label for='new-lastName'>Last Name:</label>		
+					<input id="new-lastName" ng-model='newMember.lastName'/>
+				</p>
+				<p>
+					<label for='new-email'>Email:</label>		
+					<input type='new-email' id="email" ng-model='newMember.email'/>
+				</p>			
+				<p>
+					<label for='new-nickName'>Nick Name:</label>		
+					<input id="new-nickName" ng-model='newMember.nickName'/>
+				</p>
+				<p>
+					<label for='new-address'>Address:</label>		
+					<input id="new-address" ng-model='newMember.address'/>
+				</p>
+				<p>
+					<label for='new-phone'>Tel:</label>		
+					<input id="new-phone" pattern="^[0-9-+]+$" ng-model='newMember.phone'/>
+				</p>
+				<p>
+					<label for='new-sex'>Gender:</label>
+					<select id="new-sex" ng-model='newMember.sex'>
+						<option value="Male" selected>Male</option>
+						<option value="Female">Female</option>
+					</select>
+				</p>
+				<p>
+					<label for='new-description'>Description:</label>
+					<textarea id='new-description' ng-model='newMember.description' rows="4" cols="50"></textarea>
+				</p>
+				<p>
+					<button class='button' ng-click="newMember.memberId ? updateMember() : saveNewMember()">Save</button>
+					<button class='button' ng-click="stopCreatingMember()">Close</button>
+				</p>
+			</form>
+		</div>
+	</div>
+</section>

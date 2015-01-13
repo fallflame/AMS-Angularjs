@@ -1,0 +1,106 @@
+#members {
+	max-width : 900px;
+	margin: 0 auto;
+}
+
+#members header {
+	margin:20px 0;
+	font-size: 1.6em;
+}
+
+#members header h1 {
+	display: inline-block;
+	font-family: 'Times New Roman';
+	margin: 0;
+	width:500px;
+}
+
+#members header a {
+	display: inline-block;
+	width: 180px;
+}
+
+#members header input {
+	display: inline-block;
+	height: 30px;
+	width: 200px;
+	font-size: 2em;
+	padding: 6px 12px;
+}
+
+
+
+#members-list {
+	font-size: 1.5em;
+	margin: 0;
+	padding: 0;
+}
+
+/* The first line, name of the field */
+#members-list li:first-child {
+	border-bottom: 1px solid black;
+	font-weight: bold;
+	margin-bottom: 6px;
+	cursor: pointer;
+}
+
+
+#members-list li {
+	list-style-type: none;
+	padding: 6px 0;
+}
+
+#members-list li:not(:first-child) span:first-child {
+	text-decoration: underline;
+	color: blue;
+	cursor: pointer;
+}
+
+#members-list li:nth-child(even) {
+	background-color: #ddd;
+}
+
+
+/* members list */
+#members-list li span{
+	display: inline-block;
+	margin: 0 1%;
+	width: 14%;
+}
+
+/* member modal */
+.modal {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	font-size: 1.6em;
+}
+
+.modal-dialog{
+	position: relative;
+	margin: 100px auto;
+	padding: 10px;
+	max-width: 500px;
+	background-color: white;
+    border: 1px solid #a1a1a1;
+    border-radius: 10px;
+}
+
+.modal-dialog p:not(:last-child) > *:first-child{
+	display: inline-block;
+	width: 150px;
+	text-align: right;
+	font-weight: bold;
+	margin-right: 20px;
+	vertical-align: top;
+}
+
+.modal-dialog p:last-child{
+	text-align: center;
+}
+
+.modal-dialog button {
+	font-size: 1em;
+}
