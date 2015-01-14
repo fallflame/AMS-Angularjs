@@ -1,15 +1,18 @@
-angular.module("membersController", []).controller('membersController', ['$http', '$scope', '$window', function($http, $scope, $window) {
+angular.module("membersController", [])
+
+.service('Members', ['$http', '$window', function($http, $window){
 
 	var apiURL = 'http://0.0.0.0:8080/api';
+	var self = this;
 
-	$scope.loadMembers = function (){
-		$http.get(apiURL+'/member').
-			success(function(data){
-				this.members = JSON.parse(data);
-			}).
-			error(function(){
-
-				$scope.members = 
+	this.loadMembersTo = function (contrainer){
+		$http.get(apiURL+'/member')
+			.success(function(data){
+				contrainer.members = JSON.parse(data);
+				self.members = contrainer.members;
+			})
+			.error(function(){
+				contrainer.members = 
 					[
 						{
 							memberId: 501,
@@ -50,71 +53,102 @@ angular.module("membersController", []).controller('membersController', ['$http'
 							description: 'This is phi'
 						},
 					];
+				self.members = contrainer.members;
 				
 			});
-		};
-	
-	$scope.showMemberDetail = function(id){
-		$scope.members.forEach(function(member){
-			if (member.memberId === id){
-				$scope.detailedMember = member;
-			}
-		});
 	};
 
-	$scope.hideMemberDetail = function(){
-		$scope.detailedMember = {};
-	};
-
-	$scope.createMember = function(){
-		$scope.newMember = {
-			sex : 'Male',
-			memberTypeId: '1'
-		};
-	};
-
-	$scope.stopCreatingMember = function(){
-		$scope.newMember = {};
-	};
-
-	$scope.saveNewMember = function(){
-		$http.post(apiURL+'/member', $scope.newMember).
+	this.createMember = function(newMember){
+		$http.post(apiURL+'/member', newMember).
 			success(function(){
 				$window.alert('Save New Member Successed');
-				$.scope.loadMembers();
 			}).
 			error(function(){
 				$window.alert('Save New Member failed');
 			});
 	};
 
-	$scope.modifyMember = function(){
-		$scope.newMember = angular.copy($scope.detailedMember);
-		$scope.detailedMember = {};
-	};
-
-	$scope.updateMember = function(){
-		$http.put(apiURL+ '/member/' + $scope.newMember.memberId).
+	this.updateMember = function(memberId, modifiedMember){
+		$http.put(apiURL+ '/member/' + memberId).
 			success(function(){
 					$window.alert('Update Member Successed');
-					$.scope.loadMembers();
+					self.loadMembers();
 				}).
 				error(function(){
 					$window.alert('Update Member failed');
 				});
 	};
-	
-	$scope.deleteMember = function(){
-		if($window.confirm('Are you sure to delete?')){
-			$http.delete(apiURL+ '/member/' + $scope.detailedMember.memberId).
+
+	this.deleteMember = function(memberId){
+		if($window.confirm('Are you sure to DELETE?')){
+			$http.delete(apiURL+ '/member/' + memberId).
 				success(function(){
 					$window.alert('Delete Member Successed');
-					$.scope.loadMembers();
+					self.loadMembers();
 				}).
 				error(function(){
 					$window.alert('Delete Member failed');
 				});
 		}
+	};
+
+}])
+
+.controller('membersController', ['$scope', 'Members', function($scope, Members) {
+	
+	$scope.controller = 'membersController';
+
+	Members.loadMembersTo($scope);
+
+}])
+
+.controller('membersDetailController', ['$scope', '$routeParams', 'Members', function($scope, $routeParams, Members){
+	
+	$scope.controller = 'membersDetailController';
+	$scope.members = Members.members;
+
+	Members.members.forEach(function(member){
+		if(member.memberId == $routeParams.id){
+			$scope.member = member;
+		}
+	});
+
+	$scope.deleteMember = function(){
+		Members.deleteMember($scope.member.memberId);
+	};
+
+}])
+
+.controller('membersCreationController', ['$scope', 'Members', function($scope, Members){
+	
+	$scope.controller = 'membersCreationController';
+	$scope.members = Members.members;
+
+	//Default value
+	$scope.member = {
+		sex : 'Male',
+		memberTypeId: '1'
 	}
 
-}]);
+	$scope.createMember = function(){
+		Members.createMember($scope.member);
+	};
+
+}])
+
+.controller('membersEditController', ['$scope', '$routeParams','Members', function($scope, $routeParams, Members){
+
+	$scope.controller = 'membersEditController';
+	$scope.members = Members.members;
+	Members.members.forEach(function(member){
+		if(member.memberId == $routeParams.id){
+			$scope.member = member;
+		}
+	});
+
+	$scope.updateMember = function(){
+		Members.updateMember($routeParams.id, $scope.member)
+	};
+
+}])
+

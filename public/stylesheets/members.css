@@ -62,7 +62,7 @@
 
 
 /* members list */
-#members-list li span{
+#members-list li *{
 	display: inline-block;
 	margin: 0 1%;
 	width: 14%;
@@ -73,7 +73,9 @@
 	position: absolute;
 	top: 0;
 	left: 0;
+	bottom: 0;
 	right: 0;
+	min-height: 800px;
 	background-color: rgba(0, 0, 0, 0.5);
 	font-size: 1.6em;
 }
