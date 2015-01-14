@@ -68,6 +68,10 @@
 	width: 14%;
 }
 
+#members-list li strong{
+	width: 100%;
+}
+
 /* member modal */
 .modal {
 	position: absolute;
