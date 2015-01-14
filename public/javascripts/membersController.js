@@ -2,7 +2,7 @@ angular.module("membersController", [])
 
 .service('Members', ['$http', '$window', function($http, $window){
 
-	var apiURL = 'http://0.0.0.0:8080/api';
+	var apiURL = 'http://168.235.147.241:8080/ams/api';
 	var self = this;
 
 	this.loadMembersTo = function (contrainer){
@@ -96,15 +96,15 @@ angular.module("membersController", [])
 
 .controller('membersController', ['$scope', 'Members', function($scope, Members) {
 	
-	$scope.controller = 'membersController';
+	$scope.detailsView = false;
 
 	Members.loadMembersTo($scope);
 
 }])
 
-.controller('membersDetailController', ['$scope', '$routeParams', 'Members', function($scope, $routeParams, Members){
+.controller('memberDetailsController', ['$scope', '$routeParams', 'Members', function($scope, $routeParams, Members){
 	
-	$scope.controller = 'membersDetailController';
+	$scope.detailsView = 'read';
 	$scope.members = Members.members;
 
 	Members.members.forEach(function(member){
@@ -119,9 +119,9 @@ angular.module("membersController", [])
 
 }])
 
-.controller('membersCreationController', ['$scope', 'Members', function($scope, Members){
+.controller('memberCreationController', ['$scope', 'Members', function($scope, Members){
 	
-	$scope.controller = 'membersCreationController';
+	$scope.detailsView = 'create';
 	$scope.members = Members.members;
 
 	//Default value
@@ -136,9 +136,9 @@ angular.module("membersController", [])
 
 }])
 
-.controller('membersEditController', ['$scope', '$routeParams','Members', function($scope, $routeParams, Members){
+.controller('memberEditController', ['$scope', '$routeParams','Members', function($scope, $routeParams, Members){
 
-	$scope.controller = 'membersEditController';
+	$scope.detailsView = 'edit';
 	$scope.members = Members.members;
 	Members.members.forEach(function(member){
 		if(member.memberId == $routeParams.id){
