@@ -11,7 +11,7 @@ angular.module("membersController", [])
 
 		$http.get(apiURL+'/member')
 			.success(function(data){
-				self.members = contrainer.members;
+				self.members = data.content;
 				deferred.resolve(self.members);
 			})
 			.error(function(){
