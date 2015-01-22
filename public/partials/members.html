@@ -1,3 +1,25 @@
+<!-- 
+
+Author: Yan Xu
+
+This view is used to show the members' list and the member's details
+
+Params:
+
+detailsView : 
+	if detailsView == false or void string, the details view is hidden
+	detailsView should be equals to "read", "create", or "edit" when use it.
+
+members :
+	a list contain the members, need to be assigned in list view
+
+member : 
+	a variable used to show, edit or creat member, need to be assigned when show or edit
+
+
+-->
+
+
 <section id='members' ng-init='loadMembers()'>
 	<header>
 		<h1>Members</h1>
@@ -39,7 +61,7 @@
 			<form name='memberForm' novalidate>
 				<p>
 					<label for='detail-memberTypeId'>Memeber Type ID:</label>
-					<select id="detail-memberTypeId" ng-model='member.memberTypeId' ng-readonly='detailsView == "read"'>
+					<select id="detail-memberTypeId" ng-model='member.memberTypeId' ng-disabled='detailsView == "read"' required>
 						<option value="1" selected>1</option>
 						<option value="2" selected>2</option>
 						<option value="3" selected>3</option>
@@ -71,7 +93,7 @@
 				</p>
 				<p>
 					<label for='detail-sex'>Gender:</label>
-					<select id="detail-sex" ng-model='member.sex' ng-readonly='detailsView == "read"' maxlength='1024' required>
+					<select id="detail-sex" ng-model='member.sex' ng-disabled='detailsView == "read"' maxlength='1024' required>
 						<option value="Male" selected>Male</option>
 						<option value="Female">Female</option>
 					</select>

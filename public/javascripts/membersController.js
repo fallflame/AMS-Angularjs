@@ -1,18 +1,21 @@
 angular.module("membersController", [])
-
-.service('Members', ['$http', '$window', function($http, $window){
+.service('Members', ['$http', '$window', '$q', '$location', function($http, $window, $q, $location){
 
 	var apiURL = 'http://168.235.147.241:8080/ams/api';
 	var self = this;
 
-	this.loadMembersTo = function (contrainer){
+	this.getMembers = function(){
+		if (this.members) return $q.when(this.members);
+
+		var deferred = $q.defer();
+
 		$http.get(apiURL+'/member')
 			.success(function(data){
-				contrainer.members = JSON.parse(data);
 				self.members = contrainer.members;
+				deferred.resolve(self.members);
 			})
 			.error(function(){
-				contrainer.members = 
+				self.members = 
 					[
 						{
 							memberId: 501,
@@ -53,15 +56,17 @@ angular.module("membersController", [])
 							description: 'This is phi'
 						},
 					];
-				self.members = contrainer.members;
-				
+				deferred.resolve(self.members);		
 			});
+
+		return deferred.promise;
 	};
 
 	this.createMember = function(newMember){
 		$http.post(apiURL+'/member', newMember).
 			success(function(){
 				$window.alert('Save New Member Successed');
+				$location.path('/members');
 			}).
 			error(function(){
 				$window.alert('Save New Member failed');
@@ -72,7 +77,7 @@ angular.module("membersController", [])
 		$http.put(apiURL+ '/member/' + memberId).
 			success(function(){
 					$window.alert('Update Member Successed');
-					self.loadMembers();
+					$location.path('/members');
 				}).
 				error(function(){
 					$window.alert('Update Member failed');
@@ -84,7 +89,7 @@ angular.module("membersController", [])
 			$http.delete(apiURL+ '/member/' + memberId).
 				success(function(){
 					$window.alert('Delete Member Successed');
-					self.loadMembers();
+					$location.path('/members');
 				}).
 				error(function(){
 					$window.alert('Delete Member failed');
@@ -97,8 +102,9 @@ angular.module("membersController", [])
 .controller('membersController', ['$scope', 'Members', function($scope, Members) {
 	
 	$scope.detailsView = false;
-
-	Members.loadMembersTo($scope);
+	Members.getMembers().then(function(members){
+		$scope.members = members;
+	})
 
 }])
 
