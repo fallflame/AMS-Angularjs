@@ -33,7 +33,7 @@ member :
 			<span ng-click="orderSelector = 'memberTypeId'; reverse = !reverse">Member Type</span>
 			<span ng-click="orderSelector = 'firstName'; reverse = !reverse">First Name</span>
 			<span ng-click="orderSelector = 'lastName'; reverse = !reverse">Last Name</span>
-			<span ng-click="orderSelector = 'nickName'; reverse = !reverse">Nick</span>
+			<span ng-click="orderSelector = 'nickname'; reverse = !reverse">Nick</span>
 			<span ng-click="orderSelector = 'sex'; reverse = !reverse">Gender</span>
 		</li>
 		<li ng-repeat="member in members | orderBy:orderSelector:reverse | filter:q as results">
@@ -41,7 +41,7 @@ member :
 			<span>{{member.memberTypeId}}</span>
 			<span>{{member.firstName}}</span>
 			<span>{{member.lastName}}</span>
-			<span>{{member.nickName}}</span>
+			<span>{{member.nickname}}</span>
 			<span>{{member.sex}}</span>
 		</li>
 		<li ng-if="results.length == 0">
@@ -81,7 +81,7 @@ member :
 				</p>			
 				<p>
 					<label for='detail-nickName'>Nick Name:</label>		
-					<input id="detail-nickName" ng-model='member.nickName' ng-readonly='detailsView == "read"' maxlength='128' required/>
+					<input id="detail-nickName" ng-model='member.nickname' ng-readonly='detailsView == "read"' maxlength='128' required/>
 				</p>
 				<p>
 					<label for='detail-address'>Address:</label>		
@@ -94,8 +94,8 @@ member :
 				<p>
 					<label for='detail-sex'>Gender:</label>
 					<select id="detail-sex" ng-model='member.sex' ng-disabled='detailsView == "read"' maxlength='1024' required>
-						<option value="Male" selected>Male</option>
-						<option value="Female">Female</option>
+						<option value="m" selected>Male</option>
+						<option value="f">Female</option>
 					</select>
 				</p>
 				<p>
