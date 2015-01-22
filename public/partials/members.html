@@ -16,6 +16,7 @@ members :
 member : 
 	a variable used to show, edit or creat member, need to be assigned when show or edit
 
+A confusing things in member is it has two id, a Id and a memberId, in url, we use Id, but in views, we show memberId
 
 -->
 
@@ -37,7 +38,8 @@ member :
 			<span ng-click="orderSelector = 'sex'; reverse = !reverse">Gender</span>
 		</li>
 		<li ng-repeat="member in members | orderBy:orderSelector:reverse | filter:q as results">
-			<a ng-href='/members/{{member.memberId}}'>{{member.memberId}}</a>
+			<!-- Yan Xu, 2015-2-22, the url is using id, not memberId-->
+			<a ng-href='/members/{{member.Id}}'>{{member.memberId}}</a>
 			<span>{{member.memberTypeId}}</span>
 			<span>{{member.firstName}}</span>
 			<span>{{member.lastName}}</span>
@@ -59,6 +61,10 @@ member :
 			</h2>
 			<p ng-hide='detailsView == "read"'>All form fields are required.</p>
 			<form name='memberForm' novalidate>
+				<p>
+					<label for='detail-memberId'>Member Id:</label>		
+					<input id="detail-memberId" ng-model='member.memberId' ng-readonly='detailsView == "read"' required />
+				</p>
 				<p>
 					<label for='detail-memberTypeId'>Memeber Type ID:</label>
 					<select id="detail-memberTypeId" ng-model='member.memberTypeId' ng-disabled='detailsView == "read"' required>
@@ -107,7 +113,7 @@ member :
 					<a class='button' ng-click='memberForm.$valid && updateMember()' ng-if='detailsView == "edit"'>Update</a>
 
 					<a class='button' href='/members'>Close</a>
-					<a ng-href='/members/{{member.memberId}}/edit' ng-if='detailsView == "read"' >Edit</a>
+					<a ng-href='/members/{{member.Id}}/edit' ng-if='detailsView == "read"' >Edit</a>
 					<a href ng-click='deleteMember()' ng-if='detailsView == "read"' >Delete</a>
 				</p>
 			</form>

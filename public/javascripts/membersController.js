@@ -32,8 +32,8 @@ angular.module("membersController", [])
 			});
 	};
 
-	this.updateMember = function(memberId, modifiedMember){
-		$http.put(apiURL+ '/member/' + memberId).
+	this.updateMember = function(Id, modifiedMember){
+		$http.put(apiURL+ '/member/' + Id).
 			success(function(){
 					$window.alert('Update Member Successed');
 					$location.path('/members');
@@ -43,9 +43,9 @@ angular.module("membersController", [])
 				});
 	};
 
-	this.deleteMember = function(memberId){
+	this.deleteMember = function(Id){
 		if($window.confirm('Are you sure to DELETE?')){
-			$http.delete(apiURL+ '/member/' + memberId).
+			$http.delete(apiURL+ '/member/' + Id).
 				success(function(){
 					$window.alert('Delete Member Successed');
 					$location.path('/members');
@@ -73,11 +73,12 @@ angular.module("membersController", [])
 	$scope.members = Members.members;
 
 	Members.members.forEach(function(member){
-		if(member.memberId == $routeParams.id){
+		if(member.Id == $routeParams.id){
 			$scope.member = member;
 		}
 	});
 
+	// the memberId need to be changed to Id when the server bug fixed -- Yan XU
 	$scope.deleteMember = function(){
 		Members.deleteMember($scope.member.memberId);
 	};
@@ -92,10 +93,16 @@ angular.module("membersController", [])
 	//Default value
 	$scope.member = {
 		sex : 'm',
-		memberTypeId: '1'
+		memberTypeId: '1',
 	}
 
 	$scope.createMember = function(){
+		//add value for effStatus, effDate -- Yan
+		$scope.member.effStatus = "A";
+
+		var date = new Date(); 
+		$scope.member.effDate = date.getYear() + '-' + date.getMonth() + '-' + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes();
+
 		Members.createMember($scope.member);
 	};
 
@@ -106,7 +113,7 @@ angular.module("membersController", [])
 	$scope.detailsView = 'edit';
 	$scope.members = Members.members;
 	Members.members.forEach(function(member){
-		if(member.memberId == $routeParams.id){
+		if(member.Id == $routeParams.id){
 			$scope.member = member;
 		}
 	});
