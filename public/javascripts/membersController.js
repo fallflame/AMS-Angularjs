@@ -33,7 +33,7 @@ angular.module("membersController", [])
 	};
 
 	this.updateMember = function(Id, modifiedMember){
-		$http.put(apiURL+ '/member/' + Id).
+		$http.put(apiURL+ '/member/' + Id, modifiedMember).
 			success(function(){
 					$window.alert('Update Member Successed');
 					$location.path('/members');
@@ -101,7 +101,9 @@ angular.module("membersController", [])
 		$scope.member.effStatus = "A";
 
 		var date = new Date(); 
-		$scope.member.effDate = date.getYear() + '-' + date.getMonth() + '-' + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes();
+		$scope.member.effDate = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes();
+
+		console.log($scope.member.effDate);
 
 		Members.createMember($scope.member);
 	};
@@ -119,7 +121,8 @@ angular.module("membersController", [])
 	});
 
 	$scope.updateMember = function(){
-		Members.updateMember($routeParams.id, $scope.member)
+		console.log($scope.member);
+		Members.updateMember($routeParams.id, $scope.member);
 	};
 
 }])
