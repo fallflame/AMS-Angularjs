@@ -22,6 +22,14 @@ angular.module("membersController", [])
 	};
 
 	this.createMember = function(newMember){
+
+		var date = new Date(); 
+		newMember.effDate = date.getFullYear() + '-' + 
+							date.getMonth() + '-' + 
+							date.getDay() + ' ' + 
+							date.getHours() + ':' + 
+							date.getMinutes();
+
 		$http.post(apiURL+'/member', newMember).
 			success(function(){
 				$window.alert('Save New Member Successed');
@@ -94,16 +102,10 @@ angular.module("membersController", [])
 	$scope.member = {
 		sex : 'm',
 		memberTypeId: '1',
+		effStatus: "A"
 	}
 
 	$scope.createMember = function(){
-		//add value for effStatus, effDate -- Yan
-		$scope.member.effStatus = "A";
-
-		var date = new Date(); 
-		$scope.member.effDate = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes();
-
-		console.log($scope.member.effDate);
 
 		Members.createMember($scope.member);
 	};
@@ -120,9 +122,19 @@ angular.module("membersController", [])
 		}
 	});
 
+	var oldRecord = {
+		memberTypeId: $scope.member.memberTypeId,
+		effStatus: $scope.member.effStatus
+	}
+
 	$scope.updateMember = function(){
-		console.log($scope.member);
-		Members.updateMember($routeParams.id, $scope.member);
+
+		if($scope.member.memberTypeId !== oldRecord.memberTypeId 
+			|| $scope.member.effStatus !== oldRecord.effStatus) {
+			Members.createMember($scope.member);
+		} else {
+			Members.updateMember($routeParams.id, $scope.member);
+		}
 	};
 
 }])

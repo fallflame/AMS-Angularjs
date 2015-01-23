@@ -99,7 +99,7 @@ A confusing things in member is it has two id, a Id and a memberId, in url, we u
 				</p>
 				<p>
 					<label for='detail-sex'>Gender:</label>
-					<select id="detail-sex" ng-model='member.sex' ng-disabled='detailsView == "read"' maxlength='1024' required>
+					<select id="detail-sex" ng-model='member.sex' ng-disabled='detailsView == "read"' required>
 						<option value="m" selected>Male</option>
 						<option value="f">Female</option>
 					</select>
@@ -107,6 +107,13 @@ A confusing things in member is it has two id, a Id and a memberId, in url, we u
 				<p>
 					<label for='detail-description'>Description:</label>
 					<textarea id='detail-description' ng-model='member.description' rows="4" cols="50" ng-readonly='detailsView == "read"'></textarea>
+				</p>
+				<p>
+					<label for='detail-effStatus'>Status:</label>
+					<select id="detail-effStatus" ng-model='member.effStatus' ng-disabled='detailsView == "read"' required>
+						<option value="A" selected>Active</option>
+						<option value="I">Inactive</option>
+					</select>
 				</p>
 				<p>
 					<a class='button' ng-click='memberForm.$valid && createMember()' ng-if='detailsView == "create"'>Create</a>
