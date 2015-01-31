@@ -1,0 +1,52 @@
+<section ng-init='loadActivities()'>
+	<header>
+		<h1>Activities</h1>
+		<a href="/activities/new">Add New Activities</a>
+		<input type="search" ng-model="q" placeholder="Search Activities" />
+	</header>
+
+	<ul id='activities-list'>
+		<li>
+			<span ng-click="orderSelector = 'activityID'; reverse = !reserve">Activity ID</span>
+			<span ng-click="orderSelector = 'activityName'; reverse = !reserve">Activity Name</span>
+			<span ng-click="orderSelector = 'description'; reverse = !reserve">Description</span>
+			<span ng-click="orderSelector = 'address'; reverse = !reserve">Address</span>
+			<span ng-click="orderSelector = 'timestart'; reverse = !reserve">Time Start</span>
+			<span ng-click="orderSelector = 'timeend'; reverse = !reserve">Time End</span>
+			<span ng-click="orderSelector = 'status'; reverse = !reserve">Status</span>
+		</li>
+		<li ng-repeat="activity in activities | orderBy:orderSelector:reverse | filter:q as results">
+			<a ng-href="/activities/{{activity.activityID}}">{{activity.activityID}}</a>
+			<span>{{activity.activityName}}</span>
+			<span>{{activity.description}}</span>
+			<span>{{activity.address}}</span>
+			<span>{{activity.timestart}}</span>
+			<span>{{activity.timeend}}</span>
+			<span>{{activity.status}}</span>
+		</li>
+		<li ng-if="results.length == 0">
+			<strong>No results found...</strong>
+		</li>
+	</ul>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

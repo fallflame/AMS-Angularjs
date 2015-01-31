@@ -22,3 +22,86 @@ return :
 		description:	String
 	}
 
+GET  /member/:id
+return : {
+	Id: 118
+	memberId: 56
+	memberTypeId: 2
+	firstName: "test one"
+	lastName: "tt"
+	email: "asfas@asdfa.com"
+	nickname: "tt1"
+	address: "234 street"
+	phone: "242344325"
+	sex: "m"
+	description: "java dev"
+	effDate: "2015-01-02 18:07"
+	effStatus: "A"  // A for active, I for inactive
+}
+
+// To create a member
+POST /member
+data model (all field required):
+
+{
+	memberId: 56
+	memberTypeId: 2
+	firstName: "test one"
+	lastName: "tt"
+	email: "asfas@asdfa.com"
+	nickname: "tt1"
+	address: "234 street"
+	phone: "242344325"
+	sex: "m"
+	description: "java dev"
+	effDate: "2015-01-02 18:07" // Attention!!! the effete is not the current system time but a time need to be input
+	effStatus: "A"  // A for active, I for inactive
+}
+
+// To update a member
+PUT  /member/:id
+the structure of data is just like to create
+
+// Attention!!!, to delete a member, use the memberId. When return 200, it doesn’t mean delete success. WTF~~~~~~
+DELETE /member/:memberId
+
+==============================Activity===============================
+GET /activity
+GET /activity/get/:id
+{
+	activityID: 1
+	activityName: "2015.01.01 APIGM meeting"
+	description: "2015.01.01 APIGM meeting J2EE hunting"
+	address: "123 street"
+	timestart: "2015-01-01 10:49"
+	timeend: "2015-01-01 16:30"
+	status: 1
+}
+
+// To create an activity
+POST /ams/activity/add/
+
+// To update a activity
+POST/activity/update/:id
+
+// To delete a activity
+DELETE /activity/del/
+
+
+==============================Session===============================
+GET /session
+GET /session/:id
+POST /session 
+PUT /session/:id
+DELETE /session/:id
+
+==============================attendance============================
+GET /attendance
+
+
+
+
+
+
+
+

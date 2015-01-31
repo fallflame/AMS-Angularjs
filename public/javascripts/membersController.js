@@ -33,7 +33,7 @@ angular.module("membersController", [])
 		$http.post(apiURL+'/member', newMember).
 			success(function(){
 				$window.alert('Save New Member Successed');
-				$location.path('/members');
+				//$location.path('/members');
 			}).
 			error(function(){
 				$window.alert('Save New Member failed');
@@ -41,6 +41,7 @@ angular.module("membersController", [])
 	};
 
 	this.updateMember = function(Id, modifiedMember){
+
 		$http.put(apiURL+ '/member/' + Id, modifiedMember).
 			success(function(){
 					$window.alert('Update Member Successed');
@@ -131,7 +132,10 @@ angular.module("membersController", [])
 
 		if($scope.member.memberTypeId !== oldRecord.memberTypeId 
 			|| $scope.member.effStatus !== oldRecord.effStatus) {
+
+			delete $scope.member.Id;
 			Members.createMember($scope.member);
+
 		} else {
 			Members.updateMember($routeParams.id, $scope.member);
 		}

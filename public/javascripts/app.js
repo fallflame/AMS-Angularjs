@@ -1,4 +1,4 @@
-angular.module('AMS', ['ngRoute', 'membersController'])
+angular.module('AMS', ['ngRoute', 'membersController', 'activitiesController'])
 
 .config(['$routeProvider', '$locationProvider',function ($routeProvider, $locationProvider) {
 
@@ -23,6 +23,10 @@ angular.module('AMS', ['ngRoute', 'membersController'])
 		.when('/members/:id/edit', {
 			templateUrl: 'partials/members.html',
 			controller: 'memberEditController'
+		})
+		.when('/activities', {
+			templateUrl: 'partials/activities.html',
+			controller: 'activitiesController'
 		})
 
 		.otherwise({
