@@ -1,36 +1,64 @@
-<section ng-init='loadActivities()'>
-	<header>
-		<h1>Activities</h1>
-		<a href="/activities/new">Add New Activities</a>
-		<input type="search" ng-model="q" placeholder="Search Activities" />
-	</header>
+<!-- 
 
-	<ul class='list seven-column'>
-		<li>
-			<span ng-click="orderSelector = 'activityID'; reverse = !reserve">Activity ID</span>
-			<span ng-click="orderSelector = 'activityName'; reverse = !reserve">Activity Name</span>
-			<span ng-click="orderSelector = 'description'; reverse = !reserve">Description</span>
-			<span ng-click="orderSelector = 'address'; reverse = !reserve">Address</span>
-			<span ng-click="orderSelector = 'timestart'; reverse = !reserve">Time Start</span>
-			<span ng-click="orderSelector = 'timeend'; reverse = !reserve">Time End</span>
-			<span ng-click="orderSelector = 'status'; reverse = !reserve">Status</span>
-		</li>
-		<li ng-repeat="activity in activities | orderBy:orderSelector:reverse | filter:q as results">
-			<a ng-href="/activities/{{activity.activityID}}">{{activity.activityID}}</a>
-			<span>{{activity.activityName}}</span>
-			<span>{{activity.description}}</span>
-			<span>{{activity.address}}</span>
-			<span>{{activity.timestart}}</span>
-			<span>{{activity.timeend}}</span>
-			<span>{{activity.status}}</span>
-		</li>
-		<li ng-if="results.length == 0">
-			<strong>No results found...</strong>
-		</li>
-	</ul>
+Author : Yan Xu
+
+This view is used for show the activities list
+
+a activity should be at least : {
+	activityID: INTEGER
+	activityName: STRING
+	description: STRING
+	address: STRING
+	timestart: DATE
+	timeend: DATE
+	status: INTEGER
+}
+
+-->
 
 
+<section class="container">
+	<div class="row">
+		<div class="col-md-2">
+			<a class="btn btn-default" href="/activities/new">Add Activity</a>
+		</div>
+		<div class="col-md-3 col-md-offset-5">
+			<input type="search" ng-model="q" class="form-control col-lg-3" placeholder="Search">
+		</div>
+	</div>
+
+	<p> </p>
+
+	<table class="table">
+		<tr>
+			<th ng-click="orderSelector = 'activityID'; reverse = !reverse">#</th>
+			<th ng-click="orderSelector = 'activityName'; reverse = !reverse">Name</th>
+			<th ng-click="orderSelector = 'description'; reverse = !reverse">Description</th>
+			<th ng-click="orderSelector = 'address'; reverse = !reverse">Address</th>
+			<th ng-click="orderSelector = 'timestart'; reverse = !reverse">Time Start</th>
+			<th ng-click="orderSelector = 'duration'; reverse = !reverse">Duration</th>
+			<th ng-click="orderSelector = 'status'; reverse = !reverse">Status</th>
+		</tr>
+
+		<tr ng-repeat="activity in activities | orderBy:orderSelector:reverse | filter:q as results">
+			<td><a ng-href="/activities/{{activity.activityID}}">{{activity.activityID}}</a></td>
+			<td>{{activity.activityName}}</td>
+			<td><pre>{{activity.description}}</pre></td>
+			<td>{{activity.address}}</td>
+			<td>{{activity.timestart}}</td>
+			<td>{{activity.duration}}</td>
+			<td>{{activity.status}}</td>
+		</tr>
+
+		<tr ng-if="results.length == 0"> 
+			<td colspan="7">No results found</td>
+		</tr>
+	</table>
 </section>
+
+
+
+
 
 
 

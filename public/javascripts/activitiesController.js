@@ -15,3 +15,6 @@ angular.module("activitiesController", [])
 
 
 }])
+.controller('activityDetailsController', ['$scope', 'mode', function($scope, mode){
+	$scope.mode = mode;
+}])

@@ -1,4 +1,7 @@
 <!--
+Author: Yan Xu
+
+This view is used to show the member's details
 
 the mode variable decide which this view used for
 
@@ -34,7 +37,7 @@ member = {
 -->
 
 <div class="container">
-	<!-- the mode decide the mode of memberEdit view -->
+	<!-- the mode decide the mode view -->
 	<h4>
 		<span ng-if='mode == "read"'>Member Detail</span>
 		<span ng-if='mode == "create"'>Create New Member</span>
@@ -128,7 +131,7 @@ member = {
 			<li role="presentation" ng-class="{ active : tab === 2 }">
 				<a href ng-click="tab = 2">Interests</a>
 			</li>
-			<li role="presentation" ng-class="{ active : tab === 3 }">
+			<li ng-show='mode == "read"' role="presentation" ng-class="{ active : tab === 3 }">
 				<a href ng-click="tab = 3">Attendances</a>
 			</li>
 		</ul>
@@ -148,20 +151,19 @@ member = {
 					<td>{{skill.level}}</td>
 					<td><a href ng-if='mode == "create" || mode == "edit"' ng-click="removeFrom(skill, member.skills)">delete</a></td>
 				</tr>
-			</table>
-			
-			<div class="row" ng-if='mode == "create" || mode == "edit"'>
-				<label class="sr-only" for="new-skill-name">New Skill Name</label>
-				<div class="col-md-3">
-					<input class="form-control" id="new-skill-name" name ="new-skill-name" ng-model="newSkill.name" placeholder="New Skill Name">
-				</div>
 
-				<label class="sr-only" for="new-skill-level">New Skill Level</label>
-				<div class="col-md-3">
-					<input class="form-control col-md-3" id="new-skill-level" name="new-skill-level" ng-model="newSkill.level" placeholder="New Skill Level">
-				</div>
-				<button class="btn btn-default" ng-click='newSkill.name && newSkill.level && addNewSkill()'>Add New Skill</button>
-			</div>
+				<tr ng-if='mode == "create" || mode == "edit"'> 
+					<td>
+						<input class="form-control" id="new-skill-name" name ="newSkillName" ng-model="newSkill.name" placeholder="New Skill Name">
+					</td>
+					<td>
+						<input class="form-control col-md-3" id="new-skill-level" name="newSkillLevel" ng-model="newSkill.level" placeholder="New Skill Level">
+					</td>
+					<td>
+						<button class="btn btn-default" ng-click='newSkill.name && newSkill.level && addNewSkill()'>Add New Skill</button>
+					</td>
+				</tr>
+			</table>
 		</div>
 
 		<!-- INTEREST Tab -->
@@ -179,20 +181,18 @@ member = {
 					<td>{{interest.willing}}</td>
 					<td><a href ng-if='mode == "create" || mode == "edit"' ng-click="removeFrom(skill, member.skills)">delete</a></td>
 				</tr>
+				<tr ng-if='mode == "create" || mode == "edit"'> 
+					<td>
+						<input class="form-control" id="new-interest-name" name ="newInterestName" ng-model="newInterest.name" placeholder="New Interest Name">
+					</td>
+					<td>
+						<input class="form-control col-md-3" id="new-interest-willing" name="newInterestWilling" ng-model="newInterest.willing" placeholder="New Interest Willing">
+					</td>
+					<td>
+						<button class="btn btn-default" ng-click='newInterest.name && newInterest.willing && addNewInterest()'>Add New Interest</button>
+					</td>
+				</tr>
 			</table>
-			
-			<div class="row" ng-if='mode == "create" || mode == "edit"'>
-				<label class="sr-only" for="new-interest-name">New Skill Name</label>
-				<div class="col-md-3">
-					<input class="form-control" id="new-interest-name" name ="new-interest-name" ng-model="newInterest.name" placeholder="New Interest Name">
-				</div>
-
-				<label class="sr-only" for="new-interest-willing">New Skill Willing</label>
-				<div class="col-md-3">
-					<input class="form-control col-md-3" id="new-interest-willing" name="new-interest-willing" ng-model="newInterest.willing" placeholder="New Interest Willing">
-				</div>
-				<button class="btn btn-default" ng-click='newInterest.name && newInterest.willing && addNewInterest()'>Add New Interest</button>
-			</div>
 		</div>
 
 		<!-- Attendances Tab, only visible on mode "read"-->
@@ -222,10 +222,10 @@ member = {
 		<div class="row">
 			<div ng-if='mode != "read"'>
 				<div class="col-md-1">
-					<span>Effective Date:</span>
+					<label for="eff-date">Effective Date:</label>
 				</div>
 				<div class="col-md-3" ng-class="{'has-error': memberForm.effDate.$invalid && memberForm.effDate.$dirty}">
-					<input id="effDate" class="form-control" name="effDate" ng-model='member.effDate'  pattern="^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}$" placeholder="2015-01-01 18:00" required />
+					<input id="eff-date" class="form-control" name="effDate" ng-model='member.effDate'  pattern="^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}$" placeholder="2015-01-01 18:00" required />
 				</div>
 			</div>
 

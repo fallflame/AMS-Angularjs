@@ -2,58 +2,60 @@
 
 Author: Yan Xu
 
-This view is used to show the members' list and the member's details
+This view is used to show the members' list
 
 Params:
-
-detailsView : 
-	if detailsView == false or void string, the details view is hidden
-	detailsView should be equals to "read", "create", or "edit" when use it.
 
 members :
 	a list contain the members, need to be assigned in list view
 
-member : 
-	a variable used to show, edit or creat member, need to be assigned when show or edit
+in this page a member should be at least : 
+member = {
+	id : INTEGER
+	memberId : INTEGER
+	memberTypeId : INTEGER
+	firstName : STRING
+	lastName : STRING
+	nickname : STRING
+}
+
 
 A confusing things in member is it has two id, a Id and a memberId, in url, we use Id, but in views, we show memberId
 
 -->
 
-<section>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-2">
-				<a class="btn btn-default" href="/members/new">Add Member</a>
-			</div>
-			<div class="col-md-3 col-md-offset-5">
-				<input type="search" ng-model="q" class="form-control col-lg-3" placeholder="Search">
-			</div>
+<section class="container">
+	<div class="row">
+		<div class="col-md-2">
+			<a class="btn btn-default" href="/members/new">Add Member</a>
 		</div>
-
-		<p> </p>
-	
-		<table class="table">
-			<tr>
-				<th ng-click="orderSelector = 'memberId'; reverse = !reverse">#</th>
-				<th ng-click="orderSelector = 'memberTypeId'; reverse = !reverse">Type</th>
-				<th ng-click="orderSelector = 'firstName'; reverse = !reverse">First Name</th>
-				<th ng-click="orderSelector = 'lastName'; reverse = !reverse">Last Name</th>
-				<th ng-click="orderSelector = 'nickname'; reverse = !reverse">Nick Name</th>
-			</tr>
-
-			<tr ng-repeat="member in members | orderBy:orderSelector:reverse | filter:q as results">
-				<!-- member has two Id, a Id and a MemberId, when get the detaild, should use the Id not memberId, back-end code sucks, by Yan Xu, 2015-02-19 -->
-				<td><a ng-href="/members/{{member.Id}}">{{member.memberId}}</a></td>
-				<td>{{member.memberTypeId}}</td>
-				<td>{{member.firstName}}</td>
-				<td>{{member.lastName}}</td>
-				<td>{{member.nickname}}</td>
-			</tr>
-
-			<tr ng-if="results.length == 0"> 
-				<td colspan="5">No results found</td>
-			</tr>
-		</table>
+		<div class="col-md-3 col-md-offset-5">
+			<input type="search" ng-model="q" class="form-control col-lg-3" placeholder="Search">
+		</div>
 	</div>
+
+	<p> </p>
+
+	<table class="table">
+		<tr>
+			<th ng-click="orderSelector = 'memberId'; reverse = !reverse">#</th>
+			<th ng-click="orderSelector = 'memberTypeId'; reverse = !reverse">Type</th>
+			<th ng-click="orderSelector = 'firstName'; reverse = !reverse">First Name</th>
+			<th ng-click="orderSelector = 'lastName'; reverse = !reverse">Last Name</th>
+			<th ng-click="orderSelector = 'nickname'; reverse = !reverse">Nick Name</th>
+		</tr>
+
+		<tr ng-repeat="member in members | orderBy:orderSelector:reverse | filter:q as results">
+			<!-- member has two Id, a Id and a MemberId, when get the detaild, should use the Id not memberId, back-end code sucks, by Yan Xu, 2015-02-19 -->
+			<td><a ng-href="/members/{{member.Id}}">{{member.memberId}}</a></td>
+			<td>{{member.memberTypeId}}</td>
+			<td>{{member.firstName}}</td>
+			<td>{{member.lastName}}</td>
+			<td>{{member.nickname}}</td>
+		</tr>
+
+		<tr ng-if="results.length == 0"> 
+			<td colspan="5">No results found</td>
+		</tr>
+	</table>
 </section>

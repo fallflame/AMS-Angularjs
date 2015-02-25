@@ -36,12 +36,18 @@ angular.module('AMS', ['ngRoute', 'membersController', 'activitiesController'])
 			}
 		})
 
-		/*
 		.when('/activities', {
 			templateUrl: 'partials/activities.html',
 			controller: 'activitiesController'
 		})
-		*/
+
+		.when('/activities/new', {
+			templateUrl: 'partials/activityDetails.html',
+			controller: 'activityDetailsController',
+			resolve: {
+				mode : function(){return "create";}
+			}
+		})
 
 		.otherwise({
 			templateUrl: 'partials/notFound.html',
