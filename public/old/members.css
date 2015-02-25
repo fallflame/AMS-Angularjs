@@ -1,40 +1,40 @@
-#members {
+section {
 	max-width : 900px;
 	margin: 0 auto;
 }
 
-#members header {
+section header {
 	margin:20px 0;
 	font-size: 1.6em;
 }
 
-#members header h1 {
+section header h1 {
 	display: inline-block;
 	font-family: 'Times New Roman';
 	margin: 0;
 	width:500px;
 }
 
-#members header a {
+section header a {
 	display: inline-block;
 	width: 180px;
 }
 
-#members header input {
+section header input {
 	display: inline-block;
 	width: 200px;
 }
 
 
 
-#members-list {
+.list {
 	font-size: 1.5em;
 	margin: 0;
 	padding: 0;
 }
 
 /* The first line, name of the field */
-#members-list li:first-child {
+.list li:first-child {
 	border-bottom: 1px solid black;
 	font-weight: bold;
 	margin-bottom: 6px;
@@ -42,30 +42,36 @@
 }
 
 
-#members-list li {
+.list li {
 	list-style-type: none;
 	padding: 6px 0;
 }
 
-#members-list li:not(:first-child) span:first-child {
+.list li:not(:first-child) span:first-child {
 	text-decoration: underline;
 	color: blue;
 	cursor: pointer;
 }
 
-#members-list li:nth-child(even) {
+.list li:nth-child(even) {
 	background-color: #ddd;
 }
 
 
-/* members list */
-#members-list li *{
+/* list */
+.list.six-column li *{
 	display: inline-block;
 	margin: 0 1%;
 	width: 14%;
 }
 
-#members-list li strong{
+.list.seven-column li *{
+	display: inline-block;
+	margin: 0 1%;
+	width: 11%;
+}
+
+.list li strong{
 	width: 100%;
 }
 

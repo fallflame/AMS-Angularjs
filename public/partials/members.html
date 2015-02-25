@@ -20,110 +20,40 @@ A confusing things in member is it has two id, a Id and a memberId, in url, we u
 
 -->
 
-
-<section id='members' ng-init='loadMembers()'>
-	<header>
-		<h1>Members</h1>
-		<a href='/members/new'>Add New Member</a>
-		<input type="search" ng-model="q" placeholder="Search Members" />
-	</header>
-
-	<ul id='members-list'>
-		<li>
-			<span ng-click="orderSelector = 'memberId'; reverse = !reverse">Member Id</span>
-			<span ng-click="orderSelector = 'memberTypeId'; reverse = !reverse">Member Type</span>
-			<span ng-click="orderSelector = 'firstName'; reverse = !reverse">First Name</span>
-			<span ng-click="orderSelector = 'lastName'; reverse = !reverse">Last Name</span>
-			<span ng-click="orderSelector = 'nickname'; reverse = !reverse">Nick</span>
-			<span ng-click="orderSelector = 'sex'; reverse = !reverse">Gender</span>
-		</li>
-		<li ng-repeat="member in members | orderBy:orderSelector:reverse | filter:q as results">
-			<!-- Yan Xu, 2015-2-22, the url is using id, not memberId-->
-			<a ng-href='/members/{{member.Id}}'>{{member.memberId}}</a>
-			<span>{{member.memberTypeId}}</span>
-			<span>{{member.firstName}}</span>
-			<span>{{member.lastName}}</span>
-			<span>{{member.nickname}}</span>
-			<span>{{member.sex}}</span>
-		</li>
-		<li ng-if="results.length == 0">
-			<strong>No results found...</strong>
-		</li>
-	</ul>
-
-	<!-- member detail modal, if the controller is membersController, this modal will be hide -->
-	<div id='member-details' class='modal' ng-show='detailsView'>
-		<div class='modal-dialog'>
-			<h2>
-				<span ng-if='detailsView == "read"'>Member Detail</span>
-				<span ng-if='detailsView == "create"'>Create New Member</span>
-				<span ng-if='detailsView == "edit"'>Edit Member</span>
-			</h2>
-			<p ng-hide='detailsView == "read"'>All form fields are required.</p>
-			<form name='memberForm' novalidate>
-				<p>
-					<label for='detail-memberId'>Member Id:</label>		
-					<input id="detail-memberId" ng-model='member.memberId' ng-readonly='detailsView == "read"' required />
-				</p>
-				<p>
-					<label for='detail-memberTypeId'>Memeber Type ID:</label>
-					<select id="detail-memberTypeId" ng-model='member.memberTypeId' ng-disabled='detailsView == "read"' required>
-						<option value="1" selected>1</option>
-						<option value="2" selected>2</option>
-						<option value="3" selected>3</option>
-					</select>
-				</p>
-				<p>
-					<label for='detail-firstName'>First Name:</label>		
-					<input id="detail-firstName" ng-model='member.firstName' ng-readonly='detailsView == "read"' maxlength='128' required />
-				</p>
-				<p>
-					<label for='detail-lastName'>Last Name:</label>		
-					<input id="detail-lastName" ng-model='member.lastName' ng-readonly='detailsView == "read"' maxlength='128' required />
-				</p>
-				<p>
-					<label for='detail-email'>Email:</label>		
-					<input id="detail-email" type='email' ng-model='member.email' ng-readonly='detailsView == "read"' maxlength='128' required/>
-				</p>			
-				<p>
-					<label for='detail-nickName'>Nick Name:</label>		
-					<input id="detail-nickName" ng-model='member.nickname' ng-readonly='detailsView == "read"' maxlength='128' required/>
-				</p>
-				<p>
-					<label for='detail-address'>Address:</label>		
-					<input id="detail-address" ng-model='member.address' ng-readonly='detailsView == "read"' maxlength='128' required/>
-				</p>
-				<p>
-					<label for='detail-phone'>Tel:</label>		
-					<input id="detail-phone" pattern="^[0-9-+]+$" ng-model='member.phone' ng-readonly='detailsView == "read"' maxlength='20'/>
-				</p>
-				<p>
-					<label for='detail-sex'>Gender:</label>
-					<select id="detail-sex" ng-model='member.sex' ng-disabled='detailsView == "read"' required>
-						<option value="m" selected>Male</option>
-						<option value="f">Female</option>
-					</select>
-				</p>
-				<p>
-					<label for='detail-description'>Description:</label>
-					<textarea id='detail-description' ng-model='member.description' rows="4" cols="50" ng-readonly='detailsView == "read"'></textarea>
-				</p>
-				<p>
-					<label for='detail-effStatus'>Status:</label>
-					<select id="detail-effStatus" ng-model='member.effStatus' ng-disabled='detailsView == "read"' required>
-						<option value="A" selected>Active</option>
-						<option value="I">Inactive</option>
-					</select>
-				</p>
-				<p>
-					<a class='button' ng-click='memberForm.$valid && createMember()' ng-if='detailsView == "create"'>Create</a>
-					<a class='button' ng-click='memberForm.$valid && updateMember()' ng-if='detailsView == "edit"'>Update</a>
-
-					<a class='button' href='/members'>Close</a>
-					<a ng-href='/members/{{member.Id}}/edit' ng-if='detailsView == "read"' >Edit</a>
-					<a href ng-click='deleteMember()' ng-if='detailsView == "read"' >Delete</a>
-				</p>
-			</form>
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2">
+				<a class="btn btn-default" href="/members/new">Add Member</a>
+			</div>
+			<div class="col-md-3 col-md-offset-5">
+				<input type="search" ng-model="q" class="form-control col-lg-3" placeholder="Search">
+			</div>
 		</div>
+
+		<p> </p>
+	
+		<table class="table">
+			<tr>
+				<th ng-click="orderSelector = 'memberId'; reverse = !reverse">#</th>
+				<th ng-click="orderSelector = 'memberTypeId'; reverse = !reverse">Type</th>
+				<th ng-click="orderSelector = 'firstName'; reverse = !reverse">First Name</th>
+				<th ng-click="orderSelector = 'lastName'; reverse = !reverse">Last Name</th>
+				<th ng-click="orderSelector = 'nickname'; reverse = !reverse">Nick Name</th>
+			</tr>
+
+			<tr ng-repeat="member in members | orderBy:orderSelector:reverse | filter:q as results">
+				<!-- member has two Id, a Id and a MemberId, when get the detaild, should use the Id not memberId, back-end code sucks, by Yan Xu, 2015-02-19 -->
+				<td><a ng-href="/members/{{member.Id}}">{{member.memberId}}</a></td>
+				<td>{{member.memberTypeId}}</td>
+				<td>{{member.firstName}}</td>
+				<td>{{member.lastName}}</td>
+				<td>{{member.nickname}}</td>
+			</tr>
+
+			<tr ng-if="results.length == 0"> 
+				<td colspan="5">No results found</td>
+			</tr>
+		</table>
 	</div>
 </section>

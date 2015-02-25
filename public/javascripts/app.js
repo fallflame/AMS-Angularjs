@@ -3,8 +3,7 @@ angular.module('AMS', ['ngRoute', 'membersController', 'activitiesController'])
 .config(['$routeProvider', '$locationProvider',function ($routeProvider, $locationProvider) {
 
 	$locationProvider.html5Mode({
-	         enabled: true,
-	         requireBase: false
+	         enabled: true
 	});
 
 	$routeProvider
@@ -12,22 +11,37 @@ angular.module('AMS', ['ngRoute', 'membersController', 'activitiesController'])
 			templateUrl: 'partials/members.html',
 			controller: 'membersController'
 		})
+
 		.when('/members/new', {
-			templateUrl: 'partials/members.html',
-			controller: 'memberCreationController'
+			templateUrl: 'partials/memberDetails.html',
+			controller: 'memberDetailsController',
+			resolve: {
+				mode : function(){return "create";}
+			}
 		})
+		
 		.when('/members/:id', { 
-			templateUrl: 'partials/members.html',
-			controller: 'memberDetailsController'
+			templateUrl: 'partials/memberDetails.html',
+			controller: 'memberDetailsController',
+			resolve: {
+				mode : function(){return "read";}
+			}
 		})
+
 		.when('/members/:id/edit', {
-			templateUrl: 'partials/members.html',
-			controller: 'memberEditController'
+			templateUrl: 'partials/memberDetails.html',
+			controller: 'memberDetailsController',
+			resolve: {
+				mode : function(){return "edit";}
+			}
 		})
+
+		/*
 		.when('/activities', {
 			templateUrl: 'partials/activities.html',
 			controller: 'activitiesController'
 		})
+		*/
 
 		.otherwise({
 			templateUrl: 'partials/notFound.html',

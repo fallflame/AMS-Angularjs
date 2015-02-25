@@ -1,0 +1,244 @@
+<!--
+
+the mode variable decide which this view used for
+
+mode == "read"
+mode == "create"
+mode == "edit"
+
+This is a example of member variable should be
+
+member = {
+	id : 50,
+	memberId : 100,
+	memberTypeId : '1',
+	firstName : "Joe",
+	lastName : "Doe",
+	nickname : "Dog",
+	sex : 'm',
+	email : "example@gmail.com",
+	phone : "514-000-0000",
+	address : "asdfasdfaf",
+	Description : "adfafsda",
+	effStatus : "A",
+	skills : [{
+					name: "Java",
+					level: "Basic"
+				}, ...],
+	interests : [{
+					name: "JavaScript",
+					willing: "Want to learn"
+				}, ...]
+}
+
+-->
+
+<div class="container">
+	<!-- the mode decide the mode of memberEdit view -->
+	<h4>
+		<span ng-if='mode == "read"'>Member Detail</span>
+		<span ng-if='mode == "create"'>Create New Member</span>
+		<span ng-if='mode == "edit"'>Edit Member</span>
+	</h4>
+
+	<form class="form-horizontal container" name="memberForm" novalidate>
+
+		<div class="row">
+			<div class="col-md-4" ng-class="{'has-error': memberForm.memberId.$invalid && memberForm.memberId.$dirty}">
+				<label for="member-id">Member Id</label>
+				<input type="text" class="form-control" id="member-id" name="memberId" pattern="^[1-9]\d*$" ng-model='member.memberId' ng-readonly='mode == "read"' required>
+			</div>
+
+			<div class="col-md-4">
+				<label for="member-type-id">Member Type Id</label>
+				<select id="member-type-id" class="form-control" name="memberTypeId" ng-model='member.memberTypeId' ng-disabled='mode == "read"' required>
+						<option value="1" selected>1</option>
+						<option value="2" selected>2</option>
+						<option value="3" selected>3</option>
+				</select>
+			</div>
+
+			<div class="col-md-4">
+				<label for='effStatus'>Status:</label>
+				<select id="effStatus" class="form-control" name="effStatus" ng-model='member.effStatus' ng-disabled='mode == "read"' required>
+					<option value="A">Active</option>
+					<option value="I">Inactive</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-4" ng-class="{'has-error': memberForm.lastName.$invalid && memberForm.lastName.$dirty}">
+				<label for="last-name">Last Name</label>
+				<input id="last-name" class="form-control" name="lastName" ng-model='member.lastName' ng-readonly='mode == "read"' maxlength='128' required />
+			</div>
+
+			<div class="col-md-4" ng-class="{'has-error': memberForm.firstName.$invalid && memberForm.firstName.$dirty}">
+				<label for="first-name">First Name</label>
+				<input id="first-name" class="form-control" name="firstName" ng-model='member.firstName' ng-readonly='mode == "read"' maxlength='128' required />
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-4" ng-class="{'has-error': memberForm.nickname.$invalid && memberForm.nickname.$dirty}">
+				<label for="nickname">Nickname</label>
+				<input id="nickname" class="form-control" name="nickname" ng-model='member.nickname' ng-readonly='mode == "read"' maxlength='128' required />
+			</div>
+
+			<div class="col-md-4">
+				<label for="member-gender">Gender</label>
+				<select id="member-gender" class="form-control" name="memberGender" ng-model='member.sex' ng-disabled='mode == "read"' required>
+						<option value="m" selected>M</option>
+						<option value="f" selected>F</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row">
+
+			<div class="col-md-4" ng-class="{'has-error': memberForm.email.$invalid && memberForm.email.$dirty}">
+				<label for="email">Email</label>
+				<input id="email" class="form-control" name="email" type="email" ng-model='member.email' ng-readonly='mode == "read"' maxlength='128' placeholder="example@gmail.com" required />
+			</div>
+
+			<div class="col-md-4" ng-class="{'has-error': memberForm.phone.$invalid && memberForm.phone.$dirty}">
+				<label for="phone">Phone</label>
+				<input id="phone" class="form-control" name="phone" ng-model='member.phone' ng-readonly='mode == "read"' maxlength='128' pattern="^[0-9-+]+$" placeholder="514-123-4567" required />
+			</div>
+
+			<div class="col-md-4" ng-class="{'has-error': memberForm.address.$invalid && memberForm.address.$dirty}">
+				<label for="address">Address</label>
+				<input id="address" class="form-control" name="address" ng-model='member.address' ng-readonly='mode == "read"' maxlength='256' required />
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<label for="description" >Description</label>
+				<textarea class="form-control" id="description" name="description" ng-model="member.description" rows="3" ng-readonly='mode == "read"' maxlength='1024'></textarea>
+			</div>
+		</div>
+
+		<p> </p>
+
+		<ul class="nav nav-tabs" ng-init="tab = 1">
+			<li role="presentation" ng-class="{ active : tab === 1 }">
+				<a href ng-click="tab = 1">Skills</a>
+			</li>
+			<li role="presentation" ng-class="{ active : tab === 2 }">
+				<a href ng-click="tab = 2">Interests</a>
+			</li>
+			<li role="presentation" ng-class="{ active : tab === 3 }">
+				<a href ng-click="tab = 3">Attendances</a>
+			</li>
+		</ul>
+
+		<!-- SKILL Tab -->
+		<div ng-show="tab === 1">
+			<p> </p>
+			<table class="table-condensed">
+				<tr>
+					<th>Skill</th>
+					<th>Level</th>
+					<th></th>
+				</tr>
+
+				<tr ng-repeat="skill in member.skills | orderBy:skill.level:reverse">
+					<td>{{skill.name}}</td>
+					<td>{{skill.level}}</td>
+					<td><a href ng-if='mode == "create" || mode == "edit"' ng-click="removeFrom(skill, member.skills)">delete</a></td>
+				</tr>
+			</table>
+			
+			<div class="row" ng-if='mode == "create" || mode == "edit"'>
+				<label class="sr-only" for="new-skill-name">New Skill Name</label>
+				<div class="col-md-3">
+					<input class="form-control" id="new-skill-name" name ="new-skill-name" ng-model="newSkill.name" placeholder="New Skill Name">
+				</div>
+
+				<label class="sr-only" for="new-skill-level">New Skill Level</label>
+				<div class="col-md-3">
+					<input class="form-control col-md-3" id="new-skill-level" name="new-skill-level" ng-model="newSkill.level" placeholder="New Skill Level">
+				</div>
+				<button class="btn btn-default" ng-click='newSkill.name && newSkill.level && addNewSkill()'>Add New Skill</button>
+			</div>
+		</div>
+
+		<!-- INTEREST Tab -->
+		<div ng-show="tab === 2">
+			<p> </p>
+			<table class="table-condensed">
+				<tr>
+					<th>Skill</th>
+					<th>Willing</th>
+					<th></th>
+				</tr>
+
+				<tr ng-repeat="interest in member.interests | orderBy:interest.willing:reverse">
+					<td>{{interest.name}}</td>
+					<td>{{interest.willing}}</td>
+					<td><a href ng-if='mode == "create" || mode == "edit"' ng-click="removeFrom(skill, member.skills)">delete</a></td>
+				</tr>
+			</table>
+			
+			<div class="row" ng-if='mode == "create" || mode == "edit"'>
+				<label class="sr-only" for="new-interest-name">New Skill Name</label>
+				<div class="col-md-3">
+					<input class="form-control" id="new-interest-name" name ="new-interest-name" ng-model="newInterest.name" placeholder="New Interest Name">
+				</div>
+
+				<label class="sr-only" for="new-interest-willing">New Skill Willing</label>
+				<div class="col-md-3">
+					<input class="form-control col-md-3" id="new-interest-willing" name="new-interest-willing" ng-model="newInterest.willing" placeholder="New Interest Willing">
+				</div>
+				<button class="btn btn-default" ng-click='newInterest.name && newInterest.willing && addNewInterest()'>Add New Interest</button>
+			</div>
+		</div>
+
+		<!-- Attendances Tab, only visible on mode "read"-->
+		<div ng-show="tab === 3">
+			<p> </p>
+			<table class="table">
+				<tr>
+					<th>Activity Id</th>
+					<th>Activity Name</th>
+					<th>Activity Date</th>
+				</tr>
+
+				<tr ng-repeat="attendance in member.attendances | orderBy:attendance.date:reverse">
+					<td>{{attendance.id}}</td>
+					<td>{{attendance.name}}</td>
+					<td>{{attendance.date}}</td>
+				</tr>
+				<tr>
+					<td colspan="3">Total: {{member.attendances.length}}</td>
+				</tr>
+			</table>
+		</div>
+
+		<hr/>
+
+		<!-- Buttons -->
+		<div class="row">
+			<div ng-if='mode != "read"'>
+				<div class="col-md-1">
+					<span>Effective Date:</span>
+				</div>
+				<div class="col-md-3" ng-class="{'has-error': memberForm.effDate.$invalid && memberForm.effDate.$dirty}">
+					<input id="effDate" class="form-control" name="effDate" ng-model='member.effDate'  pattern="^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}$" placeholder="2015-01-01 18:00" required />
+				</div>
+			</div>
+
+			<div class="col-md-8">
+				<button class="btn btn-primary" ng-click='memberForm.$valid && createMember()' ng-if='mode == "create"'>Create</button>
+				<a class="btn btn-primary" ng-href='/members/{{member.Id}}/edit' ng-if='mode == "read"' >Edit</a>
+
+				<button class="btn btn-primary" ng-click='memberForm.$valid && updateMember()' ng-if='mode == "edit"'>Update</button>
+				
+				<a href class="btn btn-danger"  ng-click='deleteMember()' ng-if='mode == "read"' >Delete</a>
+				<a class="btn btn-default" href='/members'>Close</a>
+			</div>
+		</div>
+	</form>
+
+</div>

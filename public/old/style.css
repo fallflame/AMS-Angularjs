@@ -1,0 +1,93 @@
+body {
+	font-family: "Helvetica", "Arial",  "Verdana", "sans-serif";
+	font-size: 62.5%;
+}
+
+a {
+	text-decoration: none;
+	color: blue;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+nav {
+	text-align: center;
+	font-size: 2em;
+	border-bottom: 1px solid #999;style
+}
+
+nav ul li {
+	display: inline-block;
+	list-style-type: none;
+	margin: 0 50px;
+}
+
+nav ul li a {
+	color: #6F0101;
+}
+
+.hidden {
+	visibility: hidden;
+	display: none;
+}
+
+.alert {
+	font-size: 2em;
+	color: red;
+	text-align: center;
+}
+
+.clear {
+	clear: both;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+/* button */
+
+.button {
+	margin: 5px;
+	padding: 10px 15px;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid #888;
+	border-radius: 4px;
+	text-decoration: none;
+	box-shadow: 2px 1px 1px #888888;
+	color: #000;
+	cursor: pointer;
+	background: none;
+	font-size: 16px;
+}
+
+.button:focus {
+	outline-width: 0;
+}
+
+.button:hover {
+	background-color: #eee;
+}
+
+.button:active {
+	position: relative;
+	top: 3px;
+	left: 2px;
+	box-shadow: 0px 0px 0px #888888;
+}
+
+form .ng-dirty.ng-invalid {
+	border-color: #FA787E; 
+}
+
+form .ng-dirty.ng-valid {
+	border-color: #78FA89; 
+}

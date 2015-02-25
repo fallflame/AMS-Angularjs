@@ -1,25 +1,49 @@
+/**
+	API
+	
+	apiURL = 'http://168.235.147.241:8080/ams/api';
+
+	GET /member
+		return {content : {memberList}}
+
+	GET /member/:id    -  id must be id not memberId
+		return {memberDetail}
+
+*/
 angular.module("membersController", [])
 .service('Members', ['$http', '$window', '$q', '$location', function($http, $window, $q, $location){
 
 	var apiURL = 'http://168.235.147.241:8080/ams/api';
 	var self = this;
 
-	this.getMembers = function(){
-		if (this.members) return $q.when(this.members);
-
-		var deferred = $q.defer();
-
+	/**
+	/* param : callback - function(err, data)
+	*/
+	this.getMembers = function(callback){
 		$http.get(apiURL+'/member')
 			.success(function(data){
-				self.members = data.content;
-				deferred.resolve(self.members);
+				callback.call(null, null, data.content);
 			})
 			.error(function(){
 				window.alert('Load Members failed');	
 			});
-
-		return deferred.promise;
 	};
+
+	/**
+	* param : id - memberId
+	* param : callback - function(err, data)
+	*/ 
+	this.getMemberById = function(id, callback){
+
+		$http.get(apiURL+'/member/'+id)
+			.success(function(data){
+				callback.call(null, null, data);
+			})
+			.error(function(){
+				window.alert('Load MemberById failed');	
+			});
+
+	}
 
 	this.createMember = function(newMember){
 
@@ -69,64 +93,53 @@ angular.module("membersController", [])
 
 .controller('membersController', ['$scope', 'Members', function($scope, Members) {
 	
-	$scope.detailsView = false;
-	Members.getMembers().then(function(members){
-		$scope.members = members;
+	Members.getMembers(function(err, data){
+		if(!err){
+			$scope.members = data;
+		}
 	})
 
 }])
 
-.controller('memberDetailsController', ['$scope', '$routeParams', 'Members', function($scope, $routeParams, Members){
+.controller('memberDetailsController', ['$scope', '$routeParams', 'Members', 'mode', function($scope, $routeParams, Members, mode){
 	
-	$scope.detailsView = 'read';
-	$scope.members = Members.members;
+	$scope.mode = mode;
+	console.log(mode);
 
-	Members.members.forEach(function(member){
-		if(member.Id == $routeParams.id){
-			$scope.member = member;
+	if (mode === "read" || mode === "edit") {
+		Members.getMemberById($routeParams.id, function(err, data){
+			if(!err){
+				$scope.member = data;
+			}
+		})
+	} else if (mode === "create") {
+		$scope.member = {
+			sex : 'm',
+			memberTypeId : '1',
+			effStatus : "A",
+			skills : [],
+			interests : []
 		}
-	});
+	}
+
+	$scope.createMember = function(){
+		Members.createMember($scope.member);
+	};
+
+	$scope.addNewSkill = function(){
+		$scope.member.skills.push($scope.newSkill);
+		$scope.newSkill = {};
+	}
+
+	$scope.addNewInterest = function(){
+		$scope.member.interests.push($scope.newInterest);
+		$scope.newInterest = {};
+	}
 
 	// the memberId need to be changed to Id when the server bug fixed -- Yan XU
 	$scope.deleteMember = function(){
 		Members.deleteMember($scope.member.memberId);
 	};
-
-}])
-
-.controller('memberCreationController', ['$scope', 'Members', function($scope, Members){
-	
-	$scope.detailsView = 'create';
-	$scope.members = Members.members;
-
-	//Default value
-	$scope.member = {
-		sex : 'm',
-		memberTypeId: '1',
-		effStatus: "A"
-	}
-
-	$scope.createMember = function(){
-
-		Members.createMember($scope.member);
-	};
-
-}])
-
-.controller('memberEditController', ['$scope', '$routeParams','Members', function($scope, $routeParams, Members){
-
-	$scope.detailsView = 'edit';
-	$scope.members = Members.members;
-	Members.members.forEach(function(member){
-		if(member.Id == $routeParams.id){
-			$scope.member = member;
-		}
-	});
-
-	var oldRecord = {
-		memberTypeId: $scope.member.memberTypeId,
-		effStatus: $scope.member.effStatus
-	}
 
 	$scope.updateMember = function(){
 

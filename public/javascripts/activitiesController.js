@@ -10,7 +10,7 @@ angular.module("activitiesController", [])
 			console.log(data.content);
 		})
 		.error(function(){
-			window.alert('Load Activites failed');
+			window.alert('Load Activities failed');
 		});
 
 
