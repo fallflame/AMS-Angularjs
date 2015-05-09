@@ -1,0 +1,129 @@
+<div class="container" ng-init="loadActivity()">
+	<form class="form-horizontal container" name="activityForm" novalidate>
+		<div class="row">
+			<table class="table">
+				<tr>
+					<th>Activity Id</th>
+					<td>{{activity.activity_id}}</td>
+					<th>Status</th>
+					<td>
+						<select ng-model="activity.activity_status">
+							<option value="0">Opened</option>
+							<option value="1">Finished</option>
+							<option value="2">Cancelled</option>
+						</select>
+					</td>
+					<th></th>
+					<td></td>
+				</tr>
+				<tr>
+					<th>Name</th>
+					<td><input ng-model="activity.activity_name"></td>
+					<th>Time Start</th>
+					<td><input type="datetime-local" ng-model="activity.timestart"></td>
+					<th>Time End</th>
+					<td><input type="datetime-local" ng-model="activity.timeend"></td>
+				</tr>
+				<tr>
+					<th>Address</th>
+					<td colspan="3"><input ng-model="activity.address"></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td colspan="3"><textarea ng-model="activity.description"></textarea></td>
+					<td><button class="btn btn-primary" ng-click="saveActivity()"> SAVE </button></td>
+					<td><button class="btn btn-danger" ng-click="deleteActivity()"> DELETE </button></td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- Buttons -->
+		<div class="row">
+			
+		</div>
+
+		<!-- SKILL Tab -->
+		<div class="row">
+			<div class="col-md-7">
+				<table class="table" ng-init="loadSessions()">
+					<tr>
+						<th>Session Type</th>
+						<th>Session Name</th>
+						<th>Presenter</th>
+						<th>Sequence</th>
+						<tr></th>
+					</tr>
+					<tr ng-repeat="session in activity.sessions | orderBy:session.sequence">
+						<td>{{session.session_type}}</td>
+						<td>{{session.session_name}}</td>
+						<td>{{session.presenter_last_name}} {{session.presenter_first_name}}</td>
+						<td>{{session.sequence}}</td>
+						<td><a href ng-click="deleteSession(session)">delete</a></td>
+					</tr>
+					<tr ng-init="newSession={}"> 
+						<td>
+							<select ng-model="newSession.session_type">
+								<option value="1">Technical</option>
+								<option value="2">Non-Technical</option>
+							</select>
+						</td>
+						<td><input ng-model="newSession.session_name"></td>
+						<td>{{newSession.presenter_name}}<a href ng-click="choosePresenter()">🔍</a></td>
+						<td><input type="number" ng-model="newSession.sequence"></td>
+						<td><a href ng-click='addNewSession()'>Add</a></td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-md-4 col-md-offset-1">
+				<h5 class="text-center">Attendance</h5>
+				<p class="text-center"><a href ng-click="editAttendance()">Edit</a></p>
+				<table class="table">
+					<tr ng-repeat="member in activity.members">
+						<td>{{member.member_id}}</td>
+						<td>{{member.last_name}}</td>
+						<td>{{member.first_name}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel" ng-init="loadMembers()">Members</h4>
+			</div>
+			<div class="modal-body">
+				<input type="search" ng-model="q" class="form-control col-lg-3" placeholder="Search">
+				<table class="table table-hover">
+					<tr>
+						<th ng-click="orderSelector = 'member_id'; reverse = !reverse">#</th>
+						<th ng-click="orderSelector = 'last_name'; reverse = !reverse">Last Name</th>
+						<th ng-click="orderSelector = 'first_name'; reverse = !reverse">First Name</th>
+						<th ng-click="orderSelector = 'nickname'; reverse = !reverse">Nick Name</th>
+					</tr>
+
+					<tr ng-repeat="member in members | orderBy:orderSelector:reverse | filter:q as results"
+						ng-click="chooseMember(member)"
+						ng-class="{warning : member.isChoosen}" >
+						<td>{{member.member_id}}</td>
+						<td>{{member.last_name}}</td>
+						<td>{{member.first_name}}</td>
+						<td>{{member.nickname}}</td>
+					</tr>
+					<tr ng-if="results.length == 0"> 
+						<td colspan="5">No results found</td>
+					</tr>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" ng-click="saveAttendance()">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
