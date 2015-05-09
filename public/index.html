@@ -1,39 +1,29 @@
 <!doctype html>
-<html lang="en" ng-app="AMS" ng-controller="mainCtrl">
+<html lang="en" ng-app="AMS">
 
 <head>
 	<meta charset="utf-8">
-	<title>{{title}}</title>
+	<title>AMS</title>
 
-	<!-- Angular.js -->
+	<script src='/javascripts/jquery.js'></script>
 	<script src='/javascripts/angular.js'></script>
 	<script src="/javascripts/angular-route.js"></script>
-	
-	<!-- Jquery -->
-	<script src='/javascripts/jquery.js'></script>
-	
-	<!-- Bootstrap -->
 	<link rel="stylesheet" href="/stylesheets/bootstrap.css">
 	<script src="/javascripts/bootstrap.js"></script>
 
 	<link rel="stylesheet" href="/stylesheets/style.css"/>
-<!-- This is a problem need to be resolved, now, the controller should be loaded before the app.js, not when needed-->
-	<script src='/javascripts/membersController.js'></script>
-	<script src='/javascripts/activitiesController.js'></script>
-	<script src='/javascripts/app.js'></script>
 
-	<base href="/">
+	<script src='/controllers/ApplicationController.js'></script>
+
 </head>
-
 
 <body>
 
 <!-- Navigation -->
 <nav class="navbar navbar-default">
 	<ul class="nav navbar-nav">
-		<li id="logo"><a href="/">LOGO</a></li>
-		<li><a href="/members">Members</a></li>
-		<li><a href="/activities">Activities</a></li>
+		<li><a href="#/members">Members</a></li>
+		<li><a href="#/activities">Activities</a></li>
 	</ul>
 </nav>
 

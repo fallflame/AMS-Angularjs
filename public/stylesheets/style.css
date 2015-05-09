@@ -1,13 +1,3 @@
-#logo{
-	font-family: Phosphate, "Copper Black";
-	color: black;
-}
-
-.container .row {
-	margin-top : 10px; 
-	margin-bottom: 10px;
-}
-
-.form-control[disabled], .form-control[readonly] {
-	cursor: default;
+input, textarea {
+	width: 80%;
 }

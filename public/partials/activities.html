@@ -1,26 +1,7 @@
-<!-- 
-
-Author : Yan Xu
-
-This view is used for show the activities list
-
-a activity should be at least : {
-	activityID: INTEGER
-	activityName: STRING
-	description: STRING
-	address: STRING
-	timestart: DATE
-	timeend: DATE
-	status: INTEGER
-}
-
--->
-
-
-<section class="container">
+<section class="container" ng-init="loadActivities()">
 	<div class="row">
 		<div class="col-md-2">
-			<a class="btn btn-default" href="/activities/new">Add Activity</a>
+			<a class="btn btn-default" href="#/activities/new">Add Activity</a>
 		</div>
 		<div class="col-md-3 col-md-offset-5">
 			<input type="search" ng-model="q" class="form-control col-lg-3" placeholder="Search">
@@ -29,24 +10,25 @@ a activity should be at least : {
 
 	<p> </p>
 
-	<table class="table">
+	<table class="table table-hover">
 		<tr>
-			<th ng-click="orderSelector = 'activityID'; reverse = !reverse">#</th>
-			<th ng-click="orderSelector = 'activityName'; reverse = !reverse">Name</th>
+			<th ng-click="orderSelector = 'activity_id'; reverse = !reverse">#</th>
+			<th ng-click="orderSelector = 'activity_name'; reverse = !reverse">Name</th>
 			<th ng-click="orderSelector = 'description'; reverse = !reverse">Description</th>
 			<th ng-click="orderSelector = 'address'; reverse = !reverse">Address</th>
 			<th ng-click="orderSelector = 'timestart'; reverse = !reverse">Time Start</th>
-			<th ng-click="orderSelector = 'duration'; reverse = !reverse">Duration</th>
+			<th ng-click="orderSelector = 'timeend'; reverse = !reverse">Time End</th>
 			<th ng-click="orderSelector = 'status'; reverse = !reverse">Status</th>
 		</tr>
 
-		<tr ng-repeat="activity in activities | orderBy:orderSelector:reverse | filter:q as results">
-			<td><a ng-href="/activities/{{activity.activityID}}">{{activity.activityID}}</a></td>
-			<td>{{activity.activityName}}</td>
-			<td><pre>{{activity.description}}</pre></td>
+		<tr ng-repeat="activity in activities | orderBy:orderSelector:reverse | filter:q as results"
+			ng-click="editActivity(activity.activity_id)">
+			<td>{{activity.activity_id}}</td>
+			<td>{{activity.activity_name}}</td>
+			<td>{{activity.description}}</td>
 			<td>{{activity.address}}</td>
-			<td>{{activity.timestart}}</td>
-			<td>{{activity.duration}}</td>
+			<td>{{activity.timestart | date : 'medium'}}</td>
+			<td>{{activity.timeend | date : 'medium'}}</td>
 			<td>{{activity.status}}</td>
 		</tr>
 

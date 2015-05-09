@@ -1,33 +1,7 @@
-<!-- 
-
-Author: Yan Xu
-
-This view is used to show the members' list
-
-Params:
-
-members :
-	a list contain the members, need to be assigned in list view
-
-in this page a member should be at least : 
-member = {
-	id : INTEGER
-	memberId : INTEGER
-	memberTypeId : INTEGER
-	firstName : STRING
-	lastName : STRING
-	nickname : STRING
-}
-
-
-A confusing things in member is it has two id, a Id and a memberId, in url, we use Id, but in views, we show memberId
-
--->
-
-<section class="container">
+<section class="container" ng-init="loadMembers()">
 	<div class="row">
 		<div class="col-md-2">
-			<a class="btn btn-default" href="/members/new">Add Member</a>
+			<a class="btn btn-default" href="#/members/new">Add Member</a>
 		</div>
 		<div class="col-md-3 col-md-offset-5">
 			<input type="search" ng-model="q" class="form-control col-lg-3" placeholder="Search">
@@ -36,21 +10,21 @@ A confusing things in member is it has two id, a Id and a memberId, in url, we u
 
 	<p> </p>
 
-	<table class="table">
+	<table class="table table-hover">
 		<tr>
-			<th ng-click="orderSelector = 'memberId'; reverse = !reverse">#</th>
-			<th ng-click="orderSelector = 'memberTypeId'; reverse = !reverse">Type</th>
-			<th ng-click="orderSelector = 'firstName'; reverse = !reverse">First Name</th>
-			<th ng-click="orderSelector = 'lastName'; reverse = !reverse">Last Name</th>
+			<th ng-click="orderSelector = 'member_id'; reverse = !reverse">#</th>
+			<th ng-click="orderSelector = 'member_type'; reverse = !reverse">Type</th>
+			<th ng-click="orderSelector = 'first_name'; reverse = !reverse">First Name</th>
+			<th ng-click="orderSelector = 'last_name'; reverse = !reverse">Last Name</th>
 			<th ng-click="orderSelector = 'nickname'; reverse = !reverse">Nick Name</th>
 		</tr>
 
-		<tr ng-repeat="member in members | orderBy:orderSelector:reverse | filter:q as results">
-			<!-- member has two Id, a Id and a MemberId, when get the detaild, should use the Id not memberId, back-end code sucks, by Yan Xu, 2015-02-19 -->
-			<td><a ng-href="/members/{{member.Id}}">{{member.memberId}}</a></td>
-			<td>{{member.memberTypeId}}</td>
-			<td>{{member.firstName}}</td>
-			<td>{{member.lastName}}</td>
+		<tr ng-repeat="member in members | orderBy:orderSelector:reverse | filter:q as results"
+			ng-click="editMember(member.member_id)">
+			<td>{{member.member_id}}</td>
+			<td>{{member.member_type}}</td>
+			<td>{{member.first_name}}</td>
+			<td>{{member.last_name}}</td>
 			<td>{{member.nickname}}</td>
 		</tr>
 
