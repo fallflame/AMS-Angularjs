@@ -1,6 +1,6 @@
 var pool = require('mysql').createPool({
 	connectionLimit : 20,
-	host     : '0.0.0.0',
+	host     : '104.167.100.143',
 	user     : 'ams',
 	password : 'z(VtFJ+Xbt',
 	database : 'ams'
