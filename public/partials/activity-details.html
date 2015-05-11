@@ -19,9 +19,9 @@
 				<tr>
 					<th>Name</th>
 					<td><input ng-model="activity.activity_name"></td>
-					<th>Time Start</th>
+					<th>Start</th>
 					<td><input type="datetime-local" ng-model="activity.timestart"></td>
-					<th>Time End</th>
+					<th>End</th>
 					<td><input type="datetime-local" ng-model="activity.timeend"></td>
 				</tr>
 				<tr>
@@ -44,23 +44,26 @@
 			
 		</div>
 
-		<!-- SKILL Tab -->
 		<div class="row">
 			<div class="col-md-7">
-				<table class="table" ng-init="loadSessions()">
+				<table class="table">
 					<tr>
 						<th>Session Type</th>
 						<th>Session Name</th>
 						<th>Presenter</th>
 						<th>Sequence</th>
-						<tr></th>
+						<th> </th>
 					</tr>
 					<tr ng-repeat="session in activity.sessions | orderBy:session.sequence">
-						<td>{{session.session_type}}</td>
+						<td>
+							<select ng-model="session.session_type" disabled>
+								<option value="1">Technical</option>
+								<option value="2">Non-Technical</option>
+							</select>
 						<td>{{session.session_name}}</td>
 						<td>{{session.presenter_last_name}} {{session.presenter_first_name}}</td>
 						<td>{{session.sequence}}</td>
-						<td><a href ng-click="deleteSession(session)">delete</a></td>
+						<td><a href ng-click="deleteSession(session)" class="glyphicon glyphicon-minus"></a></td>
 					</tr>
 					<tr ng-init="newSession={}"> 
 						<td>
@@ -70,9 +73,9 @@
 							</select>
 						</td>
 						<td><input ng-model="newSession.session_name"></td>
-						<td>{{newSession.presenter_name}}<a href ng-click="choosePresenter()">🔍</a></td>
+						<td>{{newSession.presenter_name}}<a href ng-click="choosePresenter()" class="glyphicon glyphicon-search"></a></td>
 						<td><input type="number" ng-model="newSession.sequence"></td>
-						<td><a href ng-click='addNewSession()'>Add</a></td>
+						<td><a href ng-click='addNewSession()' class="glyphicon glyphicon-plus"></a></td>
 					</tr>
 				</table>
 			</div>

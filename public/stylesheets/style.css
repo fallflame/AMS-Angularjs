@@ -1,3 +1,12 @@
 input, textarea {
-	width: 80%;
+	width: 90%;
+}
+
+select:disabled {
+	color : #000;
+	border: 0;
+	background-color : #fff; 
+	-webkit-appearance: none;
+	-moz-appearance : none;
+	appearance: none;
 }

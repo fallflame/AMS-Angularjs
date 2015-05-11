@@ -1,7 +1,7 @@
 var db = require('./db');
 
 exports.getMembers = function(callback){
-	db.query('SELECT * FROM Member')
+	db.query('SELECT * FROM Member WHERE is_delete <> 1')
 	.then(function(rows){
 		callback(null, rows);
 	}, function(err){
@@ -10,7 +10,7 @@ exports.getMembers = function(callback){
 }
 
 exports.getMemberById = function(id, callback){
-	db.query('SELECT * FROM Member WHERE member_id = ?', id)
+	db.query('SELECT * FROM Member WHERE member_id = ? AND is_delete <> 1', id)
 	.then(function(rows){
 		if (rows.length == 0){
 			callback(null, null)
@@ -43,6 +43,15 @@ exports.createOrUpdateMember = function(member, callback){
 	db.query('INSERT INTO Member SET ? ON DUPLICATE KEY UPDATE ?', [member, member])
 	.then(function(results){
 		callback(null, results.insertId);
+	}, function(err){
+		callback(err);
+	})
+}
+
+exports.deleteMember = function(memberId, callback){
+	db.query('UPDATE Member SET is_delete=1 WHERE member_id=?', memberId)
+	.then(function(results){
+		callback(null, results);
 	}, function(err){
 		callback(err);
 	})

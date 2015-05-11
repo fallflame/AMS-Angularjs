@@ -31,9 +31,11 @@
 			<td>{{activity.timeend | date : 'medium'}}</td>
 			<td>{{activity.status}}</td>
 		</tr>
-
 		<tr ng-if="results.length == 0"> 
 			<td colspan="7">No results found</td>
+		</tr>
+		<tr ng-if="!activities">
+			<td>Loading...</td>
 		</tr>
 	</table>
 </section>

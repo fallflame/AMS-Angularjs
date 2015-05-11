@@ -31,5 +31,8 @@
 		<tr ng-if="results.length == 0"> 
 			<td colspan="5">No results found</td>
 		</tr>
+		<tr ng-if="!members">
+			<td>Loading...</td>
+		</tr>
 	</table>
 </section>

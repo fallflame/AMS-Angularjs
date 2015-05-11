@@ -14,13 +14,15 @@
 						</select>
 					</td>
 					<th>Is Active</th>
-					<td><input type="checkbox" ng-model="member.is_active"></select></td>
+					<td><input type="checkbox" ng-model="member.is_active"></td>
 				</tr>
 				<tr>
 					<th>Last Name * </th>
 					<td><input ng-model="member.last_name"></td>
+
 					<th>First Name * </th>
 					<td><input ng-model="member.first_name"></td>
+
 					<th>Nickname</th>
 					<td><input ng-model="member.nickname"></td>
 				</tr>
@@ -49,64 +51,61 @@
 		<!-- Buttons -->
 		<div class="row">
 			<button class="btn btn-primary col-md-4 col-md-offset-4" ng-click="saveMember()"> SAVE </button>
+			<button class="btn btn-danger col-md-1 col-md-offset-3" ng-click="deleteMember()">DELETE</button>
 		</div>
 
-		<ul class="nav nav-tabs" ng-init="tab = 1">
-			<li ng-class="{ active : tab === 1 }">
-				<a href ng-click="tab = 1">Attendances</a>
-			</li>
-			<li ng-class="{ active : tab === 2 }">
-				<a href ng-click="tab = 2">Skills</a>
-			</li>
-		</ul>
+		<br/><br/>
 
-		<!-- Attendances Tab, only visible on mode "read"-->
-		<div ng-show="tab === 1" ng-init="loadMemberAttendances()">
-			<br/>
-			<table class="table">
-				<tr>
-					<td colspan="3">Total Attendances: {{member.attendances.length}}</td>
-				</tr>
-				<tr>
-					<th>Activity Id</th>
-					<th>Activity Name</th>
-					<th>Activity Date</th>
-				</tr>
-				<tr ng-repeat="attendance in member.attendances | orderBy:attendance.date:reverse | limitTo: 10">
-					<td>{{attendance.activity_id}}</td>
-					<td>{{attendance.activity_name}}</td>
-					<td>{{attendance.timestart | date : mediumDate}}</td>
-				</tr>
-				
-			</table>
-		</div>
+		<div class="row">
+			<div class="col-md-5">
+				<table class="table">
+					<tr>
+						<th>Skill</th>
+						<th>Level</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="skill in member.skills | orderBy:'-level'">
+						<td>{{skill.name}}</td>
+						<td>
+							<select ng-model="skill.level" disabled>
+								<option value="1">Beginner</option>
+								<option value="2">Intemidiare</option>
+								<option value="3">Expert</option>
+							</select>
+						</td>
+						<td><a href ng-click="deleteSkill(skill)" class="glyphicon glyphicon-minus"></a></td>
+					</tr>
+					<tr> 
+						<td><input ng-model="newSkill.name" ></td>
+						<td>
+							<select ng-model="newSkill.level">
+								<option value="1">Beginner</option>
+								<option value="2">Intemidiare</option>
+								<option value="3">Expert</option>
+							</select>
+						</td>
+						<td><a href ng-click='addNewSkill()' class="glyphicon glyphicon-plus"></a></td>
+					</tr>
+				</table>
+			</div>
 
-		<!-- SKILL Tab -->
-		<div ng-show="tab === 2">
-			<table class="table" ng-init="loadMemberSkills()">
-				<tr>
-					<th>Skill</th>
-					<th>Level</th>
-					<th></th>
-				</tr>
-
-				<tr ng-repeat="skill in member.skills | orderBy:skill.level:reverse">
-					<td>{{skill.name}}</td>
-					<td>{{skill.level}}</td>
-					<td><a href ng-click="deleteSkill(skill)">delete</a></td>
-				</tr>
-				<tr> 
-					<td><input ng-model="newSkill.name" ></td>
-					<td>
-						<select ng-model="newSkill.level">
-							<option value="1">Beginner</option>
-							<option value="2">Intemidiare</option>
-							<option value="3">Expert</option>
-						</select>
-					</td>
-					<td><a href ng-click='addNewSkill()'>Add</a></td>
-				</tr>
-			</table>
+			<div class="col-md-6 col-md-offset-1">
+				<table class="table">
+					<tr>
+						<td colspan="3">Total Attendances: {{member.attendances.length}}</td>
+					</tr>
+					<tr>
+						<th>Activity Id</th>
+						<th>Activity Name</th>
+						<th>Activity Date</th>
+					</tr>
+					<tr ng-repeat="attendance in member.attendances | orderBy:attendance.date:reverse | limitTo: 10">
+						<td>{{attendance.activity_id}}</td>
+						<td>{{attendance.activity_name}}</td>
+						<td>{{attendance.timestart | date : mediumDate}}</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</form>
 </div>

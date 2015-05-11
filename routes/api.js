@@ -2,6 +2,41 @@ var express = require('express');
 var router = express.Router();
 var Member = require('../models/Member')
 var Activity = require('../models/Activity')
+var User = require('../models/User')
+
+router.post('/login', function(req, res){
+	if (req.session.user) {
+		res.json(req.session.user);
+	} else {
+		User.getUser(req.body.username, req.body.password, function(err, user){
+			if (err) {
+				res.status(400);
+				res.end();
+			} else if (user == null){
+				res.status(404);
+				res.end();
+			} else {
+				req.session.user = user;
+				res.json(user);
+			}
+		})
+	}
+})
+
+router.post('/logout', function(req, res){
+	delete req.session.user;
+	res.end();
+})
+
+router.all('*', function(req, res, next){
+	if (req.session.user){
+		next();
+	} else {
+		res.status(401);
+		res.end();
+	}
+})
+
 
 router.get('/members', function(req, res) {
 	Member.getMembers(function(err, members){
@@ -46,6 +81,21 @@ router.post('/members', function(req, res){
 			res.end();
 		} else {
 			res.json(id);
+		}
+	})
+})
+
+router.delete('/members/:id', function(req, res){
+	Member.deleteMember(req.params.id, function(err, results){
+		if (err){
+			res.status(400);
+			res.end();
+		} else if(results.affectedRows == 0) {
+			res.status(404);
+			res.end();
+		} else {
+			res.status(200);
+			res.end();
 		}
 	})
 })
