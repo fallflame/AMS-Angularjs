@@ -100,6 +100,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title" id="myModalLabel" ng-init="loadMembers()">Members</h4>
+				<button type="button" class="btn btn-primary" ng-click="saveAttendance()">Save</button>
 			</div>
 			<div class="modal-body">
 				<input type="search" ng-model="q" class="form-control col-lg-3" placeholder="Search">
@@ -125,7 +126,6 @@
 				</table>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" ng-click="saveAttendance()">Save</button>
 			</div>
 		</div>
 	</div>
