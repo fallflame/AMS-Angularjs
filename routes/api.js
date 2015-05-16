@@ -256,7 +256,12 @@ router.get('/backup_db', function(req, res){
 
 	child = exec('mysqldump ams > ' + filePath,
 		function (error, stdout, stderr) {
-			res.download(filePath);
+		console.log('stdout: ' + stdout);
+		console.log('stderr: ' + stderr);
+		if (error !== null) {
+		console.log('exec error: ' + error);
+		}
+		res.download(filePath);
 	});
 })
 
