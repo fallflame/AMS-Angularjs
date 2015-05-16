@@ -26,7 +26,7 @@ angular.module('AMS')
 					$scope.activity.sessions = sessions;
 				})
 
-				$scope.loadAttendance();
+				loadAttendance();
 			})
 		}
 	}
@@ -36,12 +36,20 @@ angular.module('AMS')
 			$scope.activity.sessions = [];
 		}
 		if ($scope.activity.activity_id){
-			$http.post('/api/activities/' + $scope.activity.activity_id + '/sessions', $scope.newSession)
-			.success(function(id){
-				$scope.newSession.session_id = id;
-				$scope.activity.sessions.push($scope.newSession);
-				$scope.newSession = {};
-			})
+			var index = $scope.memberNames.indexOf($scope.presenterName);
+			
+			if (index != -1 ){
+				member = $scope.members[index]
+				$scope.newSession.presenter = member.member_id;
+				$scope.newSession.presenter_last_name = member.last_name;
+				$scope.newSession.presenter_first_name = member.first_name;
+				$http.post('/api/activities/' + $scope.activity.activity_id + '/sessions', $scope.newSession)
+				.success(function(id){
+					$scope.newSession.session_id = id;
+					$scope.activity.sessions.push($scope.newSession);
+					$scope.newSession = {};
+				})
+			}
 		}
 	}
 
@@ -54,6 +62,7 @@ angular.module('AMS')
 	}
 
 	$scope.saveActivity = function(){
+		console.log("a");
 		$http.post('/api/activities', $scope.activity)
 		.success(function(insertId){
 			if (insertId != 0){
@@ -85,37 +94,60 @@ angular.module('AMS')
 		}
 	}
 
-	$scope.loadAttendance = function(){
+	var loadAttendance = function(){
 		$http.get('/api/members')
 		.success(function(members){
 			$scope.members = members;
+			$scope.memberNames = members.map(function(member){
+				return member.first_name + ' ' + member.last_name + ', id:' + member.member_id;
+			})
 			if ($routeParams.id) {
 				$http.get('/api/activities/' + $routeParams.id + '/attendance')
 				.success(function(activityMembers){
-					console.log(activityMembers.length);
-
-					if (!$scope.activity.members) {$scope.activity.members=[]}
+					$scope.activity.members = $scope.activity.members || [];
 					$scope.members.forEach(function(member){
 						if (activityMembers.indexOf(member.member_id) > -1){
-							member.isChoosen = true;
 							$scope.activity.members.push(member);
 						}
 					})
-
 				})
 			}
 		})
 	}
 
-	$scope.choosePresenter = function(){
+	$scope.choosePresenter = function(presenterName){
+		console.log(presenterName);
+		$scope.presenterName = presenterName;
+		/*
 		$('#myModal').modal('show')
 		$scope.chooseMember = function(member){
 			$scope.newSession.presenter = member.member_id;
 			$scope.newSession.presenter_name = member.last_name + " " + member.first_name;
 			$('#myModal').modal('hide');
+		}*/
+	}
+
+	$scope.addAttendance = function(selectedMemberName){
+		var index = $scope.memberNames.indexOf(selectedMemberName);
+		member = $scope.members[index]
+		if (index != -1 && $scope.activity.members.indexOf(member) == -1){
+			$http.post('/api/activities/' + $routeParams.id + '/attendance/' + member.member_id)
+			.success(function(insertId){
+				$scope.activity.members.push($scope.members[index]);
+				$scope.selectedMemberName = ""
+			})
 		}
 	}
 
+	$scope.deleteAttendance = function(index){
+		member = $scope.activity.members[index];
+		$http.delete('/api/activities/' + $routeParams.id + '/attendance/' + member.member_id)
+		.success(function(){
+			$scope.activity.members.splice(index, 1);
+		})
+	}
+
+/*
 	$scope.editAttendance = function(){
 		$('#myModal').modal('show')
 		$scope.chooseMember = function(member){
@@ -132,6 +164,7 @@ angular.module('AMS')
 			}
 		}
 	}
+*/
 
 	$scope.saveAttendance = function(){
 		$http.post('/api/activities/' + $scope.activity.activity_id + '/attendance', $scope.activity.members)

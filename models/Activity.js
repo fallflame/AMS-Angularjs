@@ -36,6 +36,7 @@ exports.getAttendanceById = function(activityId, callback){
 	})
 }
 
+/*
 exports.modifyAttendanceById = function(activityId, members, callback){
 	var t = new Transaction(callback);
 	var promise = t.beginTransaction()
@@ -55,6 +56,25 @@ exports.modifyAttendanceById = function(activityId, members, callback){
 		return t.commit();
 	}).catch(function(err){
 		return t.rollback(err);
+	})
+}
+*/
+
+exports.addAttendance = function(activityId, memberId, callback){
+	db.query('INSERT INTO Attendance VALUE(?, ?, ?)', [null, activityId, memberId])
+	.then(function(results){
+		callback(null, results.insertId);
+	}, function(err){
+		callback(err);
+	})
+}
+
+exports.deleteAttendance = function(activityId, memberId, callback){
+	db.query('DELETE FROM Attendance WHERE activity_id=? AND member_id = ?', [activityId, memberId])
+	.then(function(results){
+		callback(null, results.affectedRows);
+	}, function(err){
+		callback(err);
 	})
 }
 

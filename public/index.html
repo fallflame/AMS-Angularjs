@@ -11,6 +11,9 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+	<!-- DEPENDED MODULE -->
+	<script src="/angular_modules/autocomplete.js"></script>
+
 	<link rel="stylesheet" href="/stylesheets/style.css"/>
 	<script src='/controllers/ApplicationController.js'></script>
 	<script src='/controllers/ActivityController.js'></script>
@@ -25,10 +28,9 @@
 	<ul class="nav navbar-nav">
 		<li><a href="#/members">Members</a></li>
 		<li><a href="#/activities">Activities</a></li>
-		<li><a href="/api/backup_db">Backup_db</a></li>
 	</ul>
 
-	<form class="navbar-form navbar-right" ng-if="!user" ng-init="login()" ng-submit="login()">
+	<form class="navbar-form navbar-right" ng-if="!user" ng-submit="login()" ng-init="login()">
 		<div class="form-group">
 			<input type="text" class="form-control" placeholder="username" ng-model="loginInfo.username">
 		</div>
@@ -44,6 +46,7 @@
  
 <footer>
 	<hr/>
+	<p class="container text-left"><a href="/api/backup_db">Backup_db</a></p>
 </footer>
 </body>
 </html>

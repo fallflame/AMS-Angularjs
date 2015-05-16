@@ -166,6 +166,7 @@ router.get('/activities/:id', function(req, res){
 	})
 })
 
+
 router.get('/activities/:id/attendance', function(req, res){
 	Activity.getAttendanceById(req.params.id, function(err, members){
 		if (err){
@@ -177,6 +178,32 @@ router.get('/activities/:id/attendance', function(req, res){
 	})
 })
 
+router.post('/activities/:id/attendance/:memberId', function(req, res){
+	Activity.addAttendance(req.params.id, req.params.memberId, function(err, insertId){
+		if (err){
+			res.status(400);
+			res.end();
+		} else {
+			res.json(insertId);
+		}
+	})
+})
+
+router.delete('/activities/:id/attendance/:memberId', function(req, res){
+	Activity.deleteAttendance(req.params.id, req.params.memberId, function(err, affectedRows){
+		if (err){
+			res.status(400);
+			res.end();
+		} else if (affectedRows == 0){
+			res.status(404);
+			res.end();
+		} else {
+			res.status(200);
+			res.end();
+		}
+	})
+})
+/*
 router.post('/activities/:id/attendance', function(req, res){
 	Activity.modifyAttendanceById(req.params.id, req.body, function(err){
 		if (err){
@@ -188,6 +215,7 @@ router.post('/activities/:id/attendance', function(req, res){
 		}
 	})
 })
+*/
 
 router.get('/activities/:id/sessions', function(req, res){
 	Activity.getSessionsById(req.params.id, function(err, sessions){

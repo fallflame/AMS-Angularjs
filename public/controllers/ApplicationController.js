@@ -1,4 +1,4 @@
-angular.module('AMS', ['ngRoute'])
+angular.module('AMS', ['ngRoute', 'autocomplete'])
 
 .config(function ($routeProvider, $locationProvider) {	
 
