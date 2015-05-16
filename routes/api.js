@@ -248,6 +248,18 @@ router.delete('/activities/:id', function(req, res){
 	})
 })
 
+router.get('/backup_db', function(req, res){
+	var exec = require('child_process').exec,
+    child;
+    var timestamp = new Date().getTime();
+    var filePath = __dirname + '/../db_backups/mysqldump' + timestamp + '.sql'
+
+	child = exec('mysqldump ams > ' + filePath,
+		function (error, stdout, stderr) {
+			res.download(filePath);
+	});
+})
+
 module.exports = router;
 
 
