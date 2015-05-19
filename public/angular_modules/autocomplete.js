@@ -93,6 +93,22 @@ app.directive('autocomplete', function() {
         setTimeout(function(){watching = true;},1000);
         $scope.setIndex(-1);
       };
+      
+      $scope.spaceInsensitiveFilter = function (expectedString, index, inputString){
+
+      	expectedString = expectedString.toLowerCase();
+      	inputString = inputString.toLowerCase();
+      
+      	if (expectedString.indexOf(inputString) != -1){
+      		return true;
+      	}
+      
+      	if (expectedString.replace(/\s/g, '').indexOf(inputString) != -1){
+      		return true;
+      	}
+      
+      	return false;
+      }
 
 
     }],
@@ -252,7 +268,7 @@ app.directive('autocomplete', function() {
           <ul ng-show="completing && (suggestions | filter:searchFilter).length > 0">\
             <li\
               suggestion\
-              ng-repeat="suggestion in suggestions | filter:searchFilter | orderBy:\'toString()\' track by $index"\
+              ng-repeat="suggestion in suggestions | filter:spaceInsensitiveFilter(value, index, searchFilter) | orderBy:\'toString()\' track by $index"\
               index="{{ $index }}"\
               val="{{ suggestion }}"\
               ng-class="{ active: ($index === selectedIndex) }"\
