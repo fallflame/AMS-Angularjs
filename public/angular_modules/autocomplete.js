@@ -94,20 +94,26 @@ app.directive('autocomplete', function() {
         $scope.setIndex(-1);
       };
       
-      $scope.spaceInsensitiveFilter = function (expectedString, index, inputString){
+      $scope.spaceInsensitiveFilter = function (inputString){
 
-      	expectedString = expectedString.toLowerCase();
-      	inputString = inputString.toLowerCase();
-      
-      	if (expectedString.indexOf(inputString) != -1){
-      		return true;
-      	}
-      
-      	if (expectedString.replace(/\s/g, '').indexOf(inputString) != -1){
-      		return true;
-      	}
-      
-      	return false;
+        return function (expectedString){
+
+          if (inputString){
+            expectedString = expectedString.toLowerCase();
+            inputString = inputString.toLowerCase();
+          
+            if (expectedString.indexOf(inputString) !== -1){
+              return true;
+            }
+            if (expectedString.replace(/\s/g, '').indexOf(inputString) !== -1){
+              return true;
+            }
+          
+          }
+        
+          return false;
+        }
+      	
       }
 
 
@@ -265,10 +271,10 @@ app.directive('autocomplete', function() {
             class="{{ attrs.inputclass }} form-control"\
             id="{{ attrs.inputid }}"\
             ng-required="{{ autocompleteRequired }}" />\
-          <ul ng-show="completing && (suggestions | filter:searchFilter).length > 0">\
+          <ul ng-show="completing && (suggestions | filter:spaceInsensitiveFilter(searchFilter)).length > 0">\
             <li\
               suggestion\
-              ng-repeat="suggestion in suggestions | filter:spaceInsensitiveFilter(value, index, searchFilter) | orderBy:\'toString()\' track by $index"\
+              ng-repeat="suggestion in suggestions | filter:spaceInsensitiveFilter(searchFilter) | orderBy:\'toString()\' track by $index"\
               index="{{ $index }}"\
               val="{{ suggestion }}"\
               ng-class="{ active: ($index === selectedIndex) }"\

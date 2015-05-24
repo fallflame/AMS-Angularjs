@@ -130,12 +130,17 @@ angular.module('AMS')
 	$scope.addAttendance = function(selectedMemberName){
 		var index = $scope.memberNames.indexOf(selectedMemberName);
 		member = $scope.members[index]
-		if (index != -1 && $scope.activity.members.indexOf(member) == -1){
-			$http.post('/api/activities/' + $routeParams.id + '/attendance/' + member.member_id)
-			.success(function(insertId){
-				$scope.activity.members.push($scope.members[index]);
+		if (index != -1){
+			if ($scope.activity.members.indexOf(member) == -1) {
+				$http.post('/api/activities/' + $routeParams.id + '/attendance/' + member.member_id)
+				.success(function(insertId){
+					$scope.activity.members.push($scope.members[index]);
+					$scope.selectedMemberName = ""
+				})
+			} else {
+				alert("already added")
 				$scope.selectedMemberName = ""
-			})
+			}
 		}
 	}
 
